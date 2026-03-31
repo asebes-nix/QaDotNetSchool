@@ -1,17 +1,17 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
-
-
-// Setup a diverse staff list to test different logic paths and edge cases
+// --- MAIN RUNTIME LOGIC (Top-level Statements) ---
+// Initialize a diverse staff list to test different logic paths
 Employee[] staff = new Employee[]
 {
-    new SalesPerson("Smith", 2000, 150),    // Over 100% (2x bonus)
-    new Manager("Johnson", 3000, 120),      // Over 100 clients (+500 bonus)
-    new Employee("Brown", 1500),            // Standard Employee
-    new SalesPerson("Elon Ma", 1, 3000),    // Extreme Case: 3000% fulfillment (3x bonus)
-    new Manager("Lazy Larry", 5000, 0),     // Edge Case: 0 clients
-    new Employee("Casper", 0),               // Edge Case: 0 Salary
-    new Employee("!@#$%^&*()", 9999)         // Edge Case: Special Character Name
+    new SalesPerson("Smith", 2000, 150),   // Over 100% fulfillment (2x bonus)
+    new Manager("Johnson", 3000, 120),    // Over 100 clients (+500 bonus)
+    new Employee("Brown", 1500),          // Standard Employee
+    new SalesPerson("Elon Ma", 1, 3000),  // Extreme Case: 3000% fulfillment
+    new Manager("Lazy Larry", 5000, 0),   // Edge Case: 0 clients
+    new Employee("Casper", 0)             // Edge Case: 0 salary
 };
 
 Company myCompany = new Company(staff);
@@ -21,83 +21,75 @@ Console.WriteLine("--- Payroll Report: Standard Bonus ($500) ---");
 myCompany.GiveEverybodyBonus(500);
 myCompany.ShowAllEmployeesInfo();
 
-Console.WriteLine("---------------------------------------------");
-Console.WriteLine($"Total Payroll Expenditure: {myCompany.TotalToPay()}");
-Console.WriteLine("---------------------------------------------\n");
+Console.WriteLine("------------------------------------------------------------");
+Console.WriteLine($"Total Payroll Expenditure: {myCompany.TotalToPay():C}");
+Console.WriteLine("------------------------------------------------------------\n");
 
-// Keep the console open for debugging
 Console.WriteLine("Press any key to exit...");
 Console.ReadKey();
 
 
-// --- 2. TYPE DEFINITIONS (Classes) ---
+// --- CLASSES (Encapsulation, Inheritance, Polymorphism) ---
 
 public class Employee
 {
-    private string name;
-    private int salary;
-    private int bonus;
+    public string Name { get; set; }
+    public int BaseSalary { get; set; }
+    protected int Bonus { get; set; }
 
-    // Read-only property for Name
-    public string Name => name;
-
-    // Open property for Salary (Encapsulation allows us to add validation later)
-    public int Salary
+    public Employee(string name, int baseSalary)
     {
-        get => salary;
-        set => salary = value;
+        Name = name;
+        BaseSalary = baseSalary;
     }
 
-    public Employee(string name, int salary)
+    // Virtual method to allow overriding in child classes
+    public virtual void SetBonus(int companyBonus)
     {
-        this.name = name;
-        this.salary = salary;
+        Bonus = companyBonus;
     }
 
-    // Virtual: Allows SalesPerson and Manager to override the math
-    public virtual void SetBonus(int bonus)
+    public virtual int ToPay()
     {
-        this.bonus = bonus;
-    }
-
-    public int ToPay() => salary + bonus;
-}
-
-public class SalesPerson : Employee
-{
-    private int percent;
-
-    public SalesPerson(string name, int salary, int percent)
-        : base(name, salary)
-    {
-        this.percent = percent;
-    }
-
-    // Override: Implements performance-based multipliers
-    public override void SetBonus(int bonus)
-    {
-        if (percent > 200) base.SetBonus(bonus * 3);
-        else if (percent > 100) base.SetBonus(bonus * 2);
-        else base.SetBonus(bonus);
+        return BaseSalary + Bonus;
     }
 }
 
+// Inheritance: Manager is an Employee
 public class Manager : Employee
 {
-    private int quantity;
+    public int ClientCount { get; set; }
 
-    public Manager(string name, int salary, int clientAmount)
-        : base(name, salary)
+    public Manager(string name, int baseSalary, int clientCount) : base(name, baseSalary)
     {
-        this.quantity = clientAmount;
+        ClientCount = clientCount;
     }
 
-    // Override: Implements flat-rate client volume bonuses
-    public override void SetBonus(int bonus)
+    // Polymorphism: Specialized bonus logic for Managers
+    public override void SetBonus(int companyBonus)
     {
-        if (quantity > 150) base.SetBonus(bonus + 1000);
-        else if (quantity > 100) base.SetBonus(bonus + 500);
-        else base.SetBonus(bonus);
+        // Managers get an extra $500 if they have more than 100 clients
+        int extra = (ClientCount > 100) ? 500 : 0;
+        Bonus = companyBonus + extra;
+    }
+}
+
+// Inheritance: SalesPerson is an Employee
+public class SalesPerson : Employee
+{
+    public double SalesTargetPercent { get; set; }
+
+    public SalesPerson(string name, int baseSalary, double salesTargetPercent) : base(name, baseSalary)
+    {
+        SalesTargetPercent = salesTargetPercent;
+    }
+
+    // Polymorphism: Specialized bonus logic for Salespeople
+    public override void SetBonus(int companyBonus)
+    {
+        // Salespeople get double bonus if they exceed 100% of their target
+        double multiplier = (SalesTargetPercent >= 100) ? 2.0 : 1.0;
+        Bonus = (int)(companyBonus * multiplier);
     }
 }
 
@@ -107,17 +99,19 @@ public class Company
 
     public Company(Employee[] employees) => this.employees = employees;
 
-    // Polymorphism: Calling SetBonus on the Employee reference 
+    // Polymorphism in action: Calling SetBonus on the Employee reference
     // executes the child class override automatically.
     public void GiveEverybodyBonus(int companyBonus)
     {
-        foreach (var emp in employees) emp.SetBonus(companyBonus);
+        foreach (var emp in employees)
+            emp.SetBonus(companyBonus);
     }
 
     public int TotalToPay()
     {
         int total = 0;
-        foreach (var emp in employees) total += emp.ToPay();
+        foreach (var emp in employees)
+            total += emp.ToPay();
         return total;
     }
 
@@ -128,7 +122,7 @@ public class Company
         {
             string role = emp.GetType().Name;
             // Alignment syntax: {value, -padding} for clean columns
-            Console.WriteLine($"Role: {role,-12} | Name: {emp.Name,-12} | Total: {emp.ToPay(),10}");
+            Console.WriteLine($"Role: {role,-12} | Name: {emp.Name,-12} | Total: {emp.ToPay(),10:C}");
         }
     }
 }
