@@ -24,6 +24,7 @@ PrintArray(firstArray);
 Console.WriteLine("Second Array (Sorted Descending):");
 PrintArray(secondArray);
 
+// Direct check for equivalence
 if (AreArraysEquivalent(firstArray, secondArray))
 {
     Console.WriteLine("\nResult: The arrays are equivalent.");
@@ -37,26 +38,26 @@ Console.WriteLine("\nPress any key to exit...");
 Console.ReadKey();
 
 
-// --- LOCAL FUNCTIONS (Replacing static methods) ---
+// --- LOCAL FUNCTIONS ---
 
 void InitializeArray(int[] array)
 {
     for (int i = 0; i < array.Length; i++)
     {
-        bool isValid = false;
-        while (!isValid)
+        // Continuous loop until valid input is provided
+        while (true)
         {
             Console.Write($"Enter element {i + 1}: ");
             string? input = Console.ReadLine();
 
-            if (int.TryParse(input, out array[i]))
+            // Inline declaration of 'value' inside TryParse (Out Variable)
+            if (int.TryParse(input, out int value))
             {
-                isValid = true;
+                array[i] = value;
+                break; // Exit the while loop on success
             }
-            else
-            {
-                Console.WriteLine("Invalid input. Please enter an integer.");
-            }
+
+            Console.WriteLine("Invalid input. Please enter an integer.");
         }
     }
 }
@@ -79,10 +80,8 @@ void SortDescending(int[] array)
         {
             if (array[j] < array[j + 1])
             {
-                // Simple manual swap
-                int temp = array[j];
-                array[j] = array[j + 1];
-                array[j + 1] = temp;
+                // Simple tuple-based swap (Modern C# feature)
+                (array[j], array[j + 1]) = (array[j + 1], array[j]);
             }
         }
     }
@@ -90,6 +89,8 @@ void SortDescending(int[] array)
 
 bool AreArraysEquivalent(int[] array1, int[] array2)
 {
+    // Using LINQ SequenceEqual would be even shorter, 
+    // but a manual check is better for practicing logic.
     if (array1.Length != array2.Length) return false;
 
     for (int i = 0; i < array1.Length; i++)
