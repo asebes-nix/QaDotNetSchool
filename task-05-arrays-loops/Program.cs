@@ -1,14 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-// --- TOP-LEVEL STATEMENTS ---
+// --- MAIN LOGIC (Top-level statements) ---
 
-// 1. Initialize 8x8 array and random generator
 int[,] matrix = new int[8, 8];
 Random random = new Random();
-List<int> filteredElements = new List<int>();
 
-// 2. Fill the array with random numbers (-50 to 50)
+// 1. Fill the array with random numbers (-50 to 50)
 for (int i = 0; i < 8; i++)
 {
     for (int j = 0; j < 8; j++)
@@ -17,43 +15,45 @@ for (int i = 0; i < 8; i++)
     }
 }
 
-// 3. Filter elements: must be ODD and POSITIVE
+// 2. Filter elements: must be ODD and POSITIVE
+// Using List directly without pre-declaring empty variables outside
+List<int> filteredElements = new List<int>();
+
 foreach (int current in matrix)
 {
-    // Using Math.Abs for the modulo is a safe habit for odd checks, 
-    // though current > 0 already ensures positive numbers.
     if (current > 0 && current % 2 != 0)
     {
         filteredElements.Add(current);
     }
 }
 
-// 4. SORT the collected elements in ascending order
+// 3. Sort the collected elements
 filteredElements.Sort();
 
 Console.WriteLine("Filtered elements (Odd, Positive, Sorted):");
 
-// 5. Display elements (max 5 per line)
+// 4. Display elements (max 5 per line)
 for (int i = 0; i < filteredElements.Count; i++)
 {
     Console.Write($"{filteredElements[i]}\t");
 
-    // Move to next line after every 5th element
     if ((i + 1) % 5 == 0)
     {
         Console.WriteLine();
     }
 }
 
-// 6. Final Statistics
+// 5. Final Statistics
 Console.WriteLine("\n\n--- Results ---");
 Console.WriteLine($"Total count of elements: {filteredElements.Count}");
 
-if (filteredElements.Count > 0)
+// Using LINQ to handle empty list safety and direct assignment
+if (filteredElements.Any())
 {
-    // Simplified: Use the LINQ Max() or the last element of the sorted list
-    int max = filteredElements.Last();
-    Console.WriteLine($"Maximum value: {max}");
+    // Since it is already sorted, Max() or Last() is fine.
+    // Max() is more descriptive of what we want.
+    int maxValue = filteredElements.Max();
+    Console.WriteLine($"Maximum value: {maxValue}");
 }
 else
 {
