@@ -1,4 +1,4 @@
-﻿// --- TOP-LEVEL STATEMENTS: No namespace or class Program needed ---
+﻿// --- MAIN RUNTIME LOGIC (Top-level statements) ---
 
 bool keepRunning = true;
 
@@ -13,7 +13,6 @@ while (keepRunning)
     Console.WriteLine("5. Exit");
     Console.Write("\nSelect an option (1-5): ");
 
-    // Nullable string to handle potential null from ReadLine
     string? choice = Console.ReadLine();
 
     if (choice == "5")
@@ -35,49 +34,41 @@ while (keepRunning)
     double num1 = GetNumberFromUser("Enter the first number: ");
     double num2 = GetNumberFromUser("Enter the second number: ");
 
-    double result;
-
-    switch (choice)
+    // Handle division by zero before calculation
+    if (choice == "4" && num2 == 0)
     {
-        case "1":
-            result = num1 + num2;
-            Console.WriteLine($"Result: {num1} + {num2} = {result}");
-            break;
-        case "2":
-            result = num1 - num2;
-            Console.WriteLine($"Result: {num1} - {num2} = {result}");
-            break;
-        case "3":
-            result = num1 * num2;
-            Console.WriteLine($"Result: {num1} * {num2} = {result}");
-            break;
-        case "4":
-            if (num2 != 0)
-            {
-                result = num1 / num2;
-                Console.WriteLine($"Result: {num1} / {num2} = {result}");
-            }
-            else
-            {
-                Console.WriteLine("Error: Division by zero is not allowed.");
-            }
-            break;
+        Console.WriteLine("Error: Division by zero is not allowed.");
+    }
+    else
+    {
+        // Using switch expression for cleaner scope and direct assignment
+        double result = choice switch
+        {
+            "1" => num1 + num2,
+            "2" => num1 - num2,
+            "3" => num1 * num2,
+            "4" => num1 / num2,
+            _ => 0 // Fallback for the compiler
+        };
+
+        // Displaying the result with a clean format
+        string op = choice switch { "1" => "+", "2" => "-", "3" => "*", _ => "/" };
+        Console.WriteLine($"\nResult: {num1} {op} {num2} = {result}");
     }
 
     Console.WriteLine("\nPress any key to return to the menu...");
     Console.ReadKey();
 }
 
-// Local function - cleaner than static methods in Top-level statements
+// Local function for input validation
 double GetNumberFromUser(string prompt)
 {
-    double number;
     while (true)
     {
         Console.Write(prompt);
-        // Handling nullability for the input
         string? input = Console.ReadLine();
-        if (double.TryParse(input, out number))
+
+        if (double.TryParse(input, out double number))
         {
             return number;
         }
