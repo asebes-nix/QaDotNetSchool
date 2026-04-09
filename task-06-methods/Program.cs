@@ -1,6 +1,4 @@
-﻿// --- MAIN LOGIC (Top-level statements) ---
-
-int[] firstArray = new int[5];
+﻿int[] firstArray = new int[5];
 int[] secondArray = new int[5];
 
 Console.WriteLine("--- Initialize First Array ---");
@@ -24,37 +22,32 @@ PrintArray(firstArray);
 Console.WriteLine("Second Array (Sorted Descending):");
 PrintArray(secondArray);
 
-// Direct check for equivalence
-if (AreArraysEquivalent(firstArray, secondArray))
+// Renamed from AreArraysEquivalent to AreArraysEqual as requested
+if (AreArraysEqual(firstArray, secondArray))
 {
-    Console.WriteLine("\nResult: The arrays are equivalent.");
+    Console.WriteLine("\nResult: The arrays are equal.");
 }
 else
 {
-    Console.WriteLine("\nResult: The arrays are NOT equivalent.");
+    Console.WriteLine("\nResult: The arrays are NOT equal.");
 }
 
 Console.WriteLine("\nPress any key to exit...");
 Console.ReadKey();
 
-
-// --- LOCAL FUNCTIONS ---
-
 void InitializeArray(int[] array)
 {
     for (int i = 0; i < array.Length; i++)
     {
-        // Continuous loop until valid input is provided
         while (true)
         {
             Console.Write($"Enter element {i + 1}: ");
             string? input = Console.ReadLine();
 
-            // Inline declaration of 'value' inside TryParse (Out Variable)
             if (int.TryParse(input, out int value))
             {
                 array[i] = value;
-                break; // Exit the while loop on success
+                break;
             }
 
             Console.WriteLine("Invalid input. Please enter an integer.");
@@ -64,11 +57,8 @@ void InitializeArray(int[] array)
 
 void PrintArray(int[] array)
 {
-    foreach (int item in array)
-    {
-        Console.Write($"{item}\t");
-    }
-    Console.WriteLine();
+    // Replaced manual loop with string.Join() to simplify and avoid trailing tabs
+    Console.WriteLine(string.Join("\t", array));
 }
 
 void SortDescending(int[] array)
@@ -80,17 +70,15 @@ void SortDescending(int[] array)
         {
             if (array[j] < array[j + 1])
             {
-                // Simple tuple-based swap (Modern C# feature)
                 (array[j], array[j + 1]) = (array[j + 1], array[j]);
             }
         }
     }
 }
 
-bool AreArraysEquivalent(int[] array1, int[] array2)
+// Renamed method to better reflect index-by-index comparison
+bool AreArraysEqual(int[] array1, int[] array2)
 {
-    // Using LINQ SequenceEqual would be even shorter, 
-    // but a manual check is better for practicing logic.
     if (array1.Length != array2.Length) return false;
 
     for (int i = 0; i < array1.Length; i++)
