@@ -1,12 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-
-// --- MAIN LOGIC (Top-level statements) ---
+﻿// ImplicitUsings are enabled, so no manual using directives are needed
 
 int[,] matrix = new int[8, 8];
-Random random = new Random();
+Random random = new(); // Simplified init
 
-// 1. Fill the array with random numbers (-50 to 50)
 for (int i = 0; i < 8; i++)
 {
     for (int j = 0; j < 8; j++)
@@ -15,9 +11,7 @@ for (int i = 0; i < 8; i++)
     }
 }
 
-// 2. Filter elements: must be ODD and POSITIVE
-// Using List directly without pre-declaring empty variables outside
-List<int> filteredElements = new List<int>();
+List<int> filteredElements = []; // Simplified init using collection expression
 
 foreach (int current in matrix)
 {
@@ -27,33 +21,19 @@ foreach (int current in matrix)
     }
 }
 
-// 3. Sort the collected elements
-filteredElements.Sort();
-
-Console.WriteLine("Filtered elements (Odd, Positive, Sorted):");
-
-// 4. Display elements (max 5 per line)
-for (int i = 0; i < filteredElements.Count; i++)
+// Display elements (max 5 per line) using LINQ Chunk
+foreach (int[] group in filteredElements.Chunk(5))
 {
-    Console.Write($"{filteredElements[i]}\t");
-
-    if ((i + 1) % 5 == 0)
-    {
-        Console.WriteLine();
-    }
+    Console.WriteLine(string.Join("\t", group));
 }
 
-// 5. Final Statistics
-Console.WriteLine("\n\n--- Results ---");
+Console.WriteLine("\n--- Results ---");
 Console.WriteLine($"Total count of elements: {filteredElements.Count}");
 
-// Using LINQ to handle empty list safety and direct assignment
-if (filteredElements.Any())
+// Using Count check instead of Any()
+if (filteredElements.Count > 0)
 {
-    // Since it is already sorted, Max() or Last() is fine.
-    // Max() is more descriptive of what we want.
-    int maxValue = filteredElements.Max();
-    Console.WriteLine($"Maximum value: {maxValue}");
+    Console.WriteLine($"Maximum value: {filteredElements.Max()}");
 }
 else
 {
