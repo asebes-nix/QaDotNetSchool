@@ -1,16 +1,10 @@
-﻿// --- MAIN RUNTIME LOGIC (Top-level statements) ---
-
-bool keepRunning = true;
+﻿bool keepRunning = true;
 
 while (keepRunning)
 {
     Console.Clear();
     Console.WriteLine("--- Calculator Menu ---");
-    Console.WriteLine("1. Addition (+)");
-    Console.WriteLine("2. Subtraction (-)");
-    Console.WriteLine("3. Multiplication (*)");
-    Console.WriteLine("4. Division (/)");
-    Console.WriteLine("5. Exit");
+    Console.WriteLine("1. Addition (+)\n2. Subtraction (-)\n3. Multiplication (*)\n4. Division (/)\n5. Exit");
     Console.Write("\nSelect an option (1-5): ");
 
     string? choice = Console.ReadLine();
@@ -18,57 +12,47 @@ while (keepRunning)
     if (choice == "5")
     {
         keepRunning = false;
-        Console.WriteLine("Exiting calculator... Goodbye!");
         continue;
     }
 
-    if (choice != "1" && choice != "2" && choice != "3" && choice != "4")
+    // Single switch to handle logic and output as requested by mentor
+    switch (choice)
     {
-        Console.WriteLine("Error: Invalid option. Press any key to try again.");
-        Console.ReadKey();
-        continue;
+        case "1":
+        case "2":
+        case "3":
+        case "4":
+            Console.Clear();
+            double num1 = GetNumberFromUser("Enter the first number: ");
+            double num2 = GetNumberFromUser("Enter the second number: ");
+
+            if (choice == "1") Console.WriteLine($"Result: {num1} + {num2} = {num1 + num2}");
+            else if (choice == "2") Console.WriteLine($"Result: {num1} - {num2} = {num1 - num2}");
+            else if (choice == "3") Console.WriteLine($"Result: {num1} * {num2} = {num1 * num2}");
+            else if (choice == "4")
+            {
+                // Check for division by zero
+                if (num2 != 0) Console.WriteLine($"Result: {num1} / {num2} = {num1 / num2}");
+                else Console.WriteLine("Error: Division by zero is not allowed.");
+            }
+            break;
+
+        default:
+            Console.WriteLine("Error: Invalid option. Press any key to try again.");
+            break;
     }
 
-    Console.Clear();
-
-    double num1 = GetNumberFromUser("Enter the first number: ");
-    double num2 = GetNumberFromUser("Enter the second number: ");
-
-    // Handle division by zero before calculation
-    if (choice == "4" && num2 == 0)
-    {
-        Console.WriteLine("Error: Division by zero is not allowed.");
-    }
-    else
-    {
-        // Using switch expression for cleaner scope and direct assignment
-        double result = choice switch
-        {
-            "1" => num1 + num2,
-            "2" => num1 - num2,
-            "3" => num1 * num2,
-            "4" => num1 / num2,
-            _ => 0 // Fallback for the compiler
-        };
-
-        // Displaying the result with a clean format
-        string op = choice switch { "1" => "+", "2" => "-", "3" => "*", _ => "/" };
-        Console.WriteLine($"\nResult: {num1} {op} {num2} = {result}");
-    }
-
-    Console.WriteLine("\nPress any key to return to the menu...");
+    Console.WriteLine("\nPress any key to continue...");
     Console.ReadKey();
 }
 
-// Local function for input validation
-double GetNumberFromUser(string prompt)
+// Added static keyword as it doesn't access instance properties
+static double GetNumberFromUser(string prompt)
 {
     while (true)
     {
         Console.Write(prompt);
-        string? input = Console.ReadLine();
-
-        if (double.TryParse(input, out double number))
+        if (double.TryParse(Console.ReadLine(), out double number))
         {
             return number;
         }
