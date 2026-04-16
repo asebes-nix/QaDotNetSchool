@@ -1,7 +1,5 @@
-﻿// ImplicitUsings are enabled, so no manual using directives are needed
-
-int[,] matrix = new int[8, 8];
-Random random = new(); // Simplified init
+﻿int[,] matrix = new int[8, 8];
+Random random = new(); 
 
 for (int i = 0; i < 8; i++)
 {
@@ -11,7 +9,7 @@ for (int i = 0; i < 8; i++)
     }
 }
 
-List<int> filteredElements = []; // Simplified init using collection expression
+List<int> filteredElements = []; 
 
 foreach (int current in matrix)
 {
@@ -21,7 +19,6 @@ foreach (int current in matrix)
     }
 }
 
-// Display elements (max 5 per line) using LINQ Chunk
 foreach (int[] group in filteredElements.Chunk(5))
 {
     Console.WriteLine(string.Join("\t", group));
@@ -30,7 +27,6 @@ foreach (int[] group in filteredElements.Chunk(5))
 Console.WriteLine("\n--- Results ---");
 Console.WriteLine($"Total count of elements: {filteredElements.Count}");
 
-// Using Count check instead of Any()
 if (filteredElements.Count > 0)
 {
     Console.WriteLine($"Maximum value: {filteredElements.Max()}");
