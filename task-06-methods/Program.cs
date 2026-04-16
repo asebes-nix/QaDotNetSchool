@@ -22,7 +22,6 @@ PrintArray(firstArray);
 Console.WriteLine("Second Array (Sorted Descending):");
 PrintArray(secondArray);
 
-// Renamed from AreArraysEquivalent to AreArraysEqual as requested
 if (AreArraysEqual(firstArray, secondArray))
 {
     Console.WriteLine("\nResult: The arrays are equal.");
@@ -57,7 +56,6 @@ void InitializeArray(int[] array)
 
 void PrintArray(int[] array)
 {
-    // Replaced manual loop with string.Join() to simplify and avoid trailing tabs
     Console.WriteLine(string.Join("\t", array));
 }
 
@@ -76,7 +74,6 @@ void SortDescending(int[] array)
     }
 }
 
-// Renamed method to better reflect index-by-index comparison
 bool AreArraysEqual(int[] array1, int[] array2)
 {
     if (array1.Length != array2.Length) return false;
