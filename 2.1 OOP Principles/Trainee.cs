@@ -1,4 +1,4 @@
-﻿namespace _2._1_OOP_Principles;
+﻿namespace Nix.Oop.Principles;
 
 public class Trainee : Barista
 {

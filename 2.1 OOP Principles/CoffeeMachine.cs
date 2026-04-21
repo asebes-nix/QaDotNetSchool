@@ -1,5 +1,5 @@
-﻿namespace _2._1_OOP_Principles;
+﻿namespace Nix.Oop.Principles;
 public class CoffeeMachine
 {
-    public string ModelName { get; set; } = "Generic Machine";
+    public virtual string ModelName { get; set; } = "Generic Machine";
 }

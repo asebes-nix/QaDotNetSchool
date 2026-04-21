@@ -1,8 +1,5 @@
-﻿namespace _2._1_OOP_Principles;
+﻿namespace Nix.Oop.Principles;
 public class CoffeeMachinePhilips : CoffeeMachine
 {
-    public CoffeeMachinePhilips()
-    {
-        ModelName = "Philips";
-    }
+    public override string ModelName { get; set; } = "Philips";
 }
