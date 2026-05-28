@@ -1,0 +1,11 @@
+﻿using Nix.Oop.Principles;
+
+CoffeeMachine philips = new CoffeeMachinePhilips();
+Console.WriteLine(philips.ModelName);
+CoffeeOptions coffee = new Coffee();
+coffee.MakeLatte();
+Barista barista = new();
+barista.MakingEspresso();
+Barista trainee = new Trainee();
+trainee.MakingEspresso();
+Console.ReadKey();
