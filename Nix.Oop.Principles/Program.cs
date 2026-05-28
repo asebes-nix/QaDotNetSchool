@@ -1,4 +1,5 @@
 ﻿using Nix.Oop.Principles;
+
 CoffeeMachine philips = new CoffeeMachinePhilips();
 Console.WriteLine(philips.ModelName);
 CoffeeOptions coffee = new Coffee();

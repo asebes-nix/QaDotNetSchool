@@ -1,4 +1,5 @@
 ﻿namespace Nix.Oop.Principles;
+
 public class Barista
 {
     private static void MakingSecretCofee()
