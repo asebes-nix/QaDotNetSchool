@@ -9,41 +9,61 @@ while (keepRunning)
 
     string? choice = Console.ReadLine();
 
-    if (choice == "5")
-    {
-        keepRunning = false;
-        continue;
-    }
-
-    // Single switch to handle logic and output as requested by mentor
-    switch (choice)
+     switch (choice)
     {
         case "1":
-        case "2":
-        case "3":
-        case "4":
+        {
             Console.Clear();
             double num1 = GetNumberFromUser("Enter the first number: ");
             double num2 = GetNumberFromUser("Enter the second number: ");
-
-            if (choice == "1") Console.WriteLine($"Result: {num1} + {num2} = {num1 + num2}");
-            else if (choice == "2") Console.WriteLine($"Result: {num1} - {num2} = {num1 - num2}");
-            else if (choice == "3") Console.WriteLine($"Result: {num1} * {num2} = {num1 * num2}");
-            else if (choice == "4")
-            {
-                // Check for division by zero
-                if (num2 != 0) Console.WriteLine($"Result: {num1} / {num2} = {num1 / num2}");
-                else Console.WriteLine("Error: Division by zero is not allowed.");
-            }
+            Console.WriteLine($"Result: {num1} + {num2} = {num1 + num2}");
             break;
+        }
+
+        case "2":
+        {
+            Console.Clear();
+            double num1 = GetNumberFromUser("Enter the first number: ");
+            double num2 = GetNumberFromUser("Enter the second number: ");
+            Console.WriteLine($"Result: {num1} - {num2} = {num1 - num2}");
+            break;
+        }
+        case "3":
+        {
+            Console.Clear();
+            double num1 = GetNumberFromUser("Enter the first number: ");
+            double num2 = GetNumberFromUser("Enter the second number: ");
+            Console.WriteLine($"Result: {num1} * {num2} = {num1 * num2}");
+            break;
+        }
+        case "4":
+        {
+            Console.Clear();
+            double num1 = GetNumberFromUser("Enter the first number: ");
+            double num2 = GetNumberFromUser("Enter the second number: ");
+            if (num2 != 0) Console.WriteLine($"Result: {num1} / {num2} = {num1 / num2}");
+            else Console.WriteLine("Error: Division by zero is not allowed.");
+            break;
+        }
+        case "5":
+        {
+            Console.WriteLine("Exiting calculator... Goodbye!");
+            keepRunning = false;
+            break;
+        }
+
+         
 
         default:
             Console.WriteLine("Error: Invalid option. Press any key to try again.");
             break;
     }
 
-    Console.WriteLine("\nPress any key to continue...");
-    Console.ReadKey();
+    if (keepRunning)
+    {
+        Console.WriteLine("\nPress any key to continue...");
+        Console.ReadKey();
+    }
 }
 
 // Added static keyword as it doesn't access instance properties
