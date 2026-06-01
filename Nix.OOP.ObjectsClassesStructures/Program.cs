@@ -1,4 +1,4 @@
-﻿using Objects_Classes_Structures;
+﻿using Nix.OOP.ObjectsClassesStructures;
 
 User testUser = new(1, "Péter", 45);
 testUser.PrintInfo();
