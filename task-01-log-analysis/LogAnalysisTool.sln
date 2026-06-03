@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.14.37111.16 d17.14
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LogAnalysisTool", "LogAnalysisTool.csproj", "{7CD4CA71-0D7B-1036-9639-E312B49DE448}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NixExceptions", "NixExceptions.csproj", "{7CD4CA71-0D7B-1036-9639-E312B49DE448}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
