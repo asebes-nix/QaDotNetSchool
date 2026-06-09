@@ -9,51 +9,47 @@ while (keepRunning)
 
     string? choice = Console.ReadLine();
 
-     switch (choice)
+    switch (choice)
     {
         case "1":
-        {
-            Console.Clear();
-            double num1 = GetNumberFromUser("Enter the first number: ");
-            double num2 = GetNumberFromUser("Enter the second number: ");
-            Console.WriteLine($"Result: {num1} + {num2} = {num1 + num2}");
-            break;
-        }
-
+            {
+                Console.Clear();
+                double num1 = GetNumberFromUser("Enter the first number: ");
+                double num2 = GetNumberFromUser("Enter the second number: ");
+                Console.WriteLine($"Result: {num1} + {num2} = {num1 + num2}");
+                break;
+            }
         case "2":
-        {
-            Console.Clear();
-            double num1 = GetNumberFromUser("Enter the first number: ");
-            double num2 = GetNumberFromUser("Enter the second number: ");
-            Console.WriteLine($"Result: {num1} - {num2} = {num1 - num2}");
-            break;
-        }
+            {
+                Console.Clear();
+                double num1 = GetNumberFromUser("Enter the first number: ");
+                double num2 = GetNumberFromUser("Enter the second number: ");
+                Console.WriteLine($"Result: {num1} - {num2} = {num1 - num2}");
+                break;
+            }
         case "3":
-        {
-            Console.Clear();
-            double num1 = GetNumberFromUser("Enter the first number: ");
-            double num2 = GetNumberFromUser("Enter the second number: ");
-            Console.WriteLine($"Result: {num1} * {num2} = {num1 * num2}");
-            break;
-        }
+            {
+                Console.Clear();
+                double num1 = GetNumberFromUser("Enter the first number: ");
+                double num2 = GetNumberFromUser("Enter the second number: ");
+                Console.WriteLine($"Result: {num1} * {num2} = {num1 * num2}");
+                break;
+            }
         case "4":
-        {
-            Console.Clear();
-            double num1 = GetNumberFromUser("Enter the first number: ");
-            double num2 = GetNumberFromUser("Enter the second number: ");
-            if (num2 != 0) Console.WriteLine($"Result: {num1} / {num2} = {num1 / num2}");
-            else Console.WriteLine("Error: Division by zero is not allowed.");
-            break;
-        }
+            {
+                Console.Clear();
+                double num1 = GetNumberFromUser("Enter the first number: ");
+                double num2 = GetNumberFromUser("Enter the second number: ");
+                if (num2 != 0) Console.WriteLine($"Result: {num1} / {num2} = {num1 / num2}");
+                else Console.WriteLine("Error: Division by zero is not allowed.");
+                break;
+            }
         case "5":
-        {
-            Console.WriteLine("Exiting calculator... Goodbye!");
-            keepRunning = false;
-            break;
-        }
-
-         
-
+            {
+                Console.WriteLine("Exiting calculator... Goodbye!");
+                keepRunning = false;
+                break;
+            }
         default:
             Console.WriteLine("Error: Invalid option. Press any key to try again.");
             break;
@@ -66,7 +62,6 @@ while (keepRunning)
     }
 }
 
-// Added static keyword as it doesn't access instance properties
 static double GetNumberFromUser(string prompt)
 {
     while (true)
