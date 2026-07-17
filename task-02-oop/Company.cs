@@ -1,13 +1,8 @@
 ﻿namespace Nix.Oop.Final;
 
-public class Company
+public class Company(Employee[] employees)
 {
-    private Employee[] _employees;
-
-    public Company(Employee[] employees)
-    {
-        _employees = employees;
-    }
+    private readonly Employee[] _employees = employees;
 
     public void GiveEverybodyBonus(int companyBonus)
     {
@@ -16,15 +11,12 @@ public class Company
             employee.SetBonus(companyBonus);
         }
     }
+
     public int TotalToPay()
     {
-        int total = 0;
-        foreach (var employee in _employees)
-        {
-            total += employee.ToPay();
-        }
-        return total;
+        return _employees.Sum(e => e.ToPay());
     }
+
     public void GetNameSalary()
     {
         foreach (var employee in _employees)

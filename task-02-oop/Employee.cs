@@ -1,28 +1,21 @@
 ﻿namespace Nix.Oop.Final;
 
-public class Employee
+public class Employee(string name, int salary)
 {
-    private string _name;
-    private int _salary;
     private int _bonus;
 
-    public string Name { get => _name; }
+    public string Name => name;
 
     public int Salary
     {
-        get => _salary;
-        set => _salary = value;
+        get => salary;
+        set => salary = value;
     }
 
-    public Employee(string name, int salary)
-    {
-        _name = name;
-        _salary = salary;
-    }
     public virtual void SetBonus(int bonus)
     {
         _bonus = bonus;
     }
 
-    public int ToPay() => _salary + _bonus;
+    public int ToPay() => salary + _bonus;
 }

@@ -1,14 +1,10 @@
 ﻿namespace Nix.Oop.Final;
 
-public class  Manager : Employee
+public class  Manager(string name, int salary, int clientAmount) : Employee(name, salary)
 {
-    private int _quantity;
+    private readonly int _quantity = clientAmount;
 
-    public Manager(string name, int salary, int clientAmount) : base(name, salary)
-    {
-        _quantity = clientAmount;
-    }
-     public override void SetBonus(int bonus)
+    public override void SetBonus(int bonus)
     {
         if (_quantity > 150)
             base.SetBonus(bonus + 1000);

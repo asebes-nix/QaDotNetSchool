@@ -1,13 +1,9 @@
 ﻿namespace Nix.Oop.Final;
 
-public class SalesPerson : Employee
+public class SalesPerson(string name, int salary, int percent) : Employee(name, salary)
 {
-    private int _percent;
+    private readonly int _percent = percent;
 
-    public SalesPerson(string name, int salary, int percent) : base(name, salary)
-    {
-        _percent = percent;
-    }
     public override void SetBonus(int bonus)
     {
         if (_percent > 200)
