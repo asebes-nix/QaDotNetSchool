@@ -1,18 +1,9 @@
 ﻿namespace NIX.OOP.Inheritance;
 
-public class Shape
+public class Shape(double width, double height)
 {
-    public double Width;
-    public double Height;
-
-    public Shape(double width, double height)
+    public virtual void GetArea()
     {
-        Width = width;
-        Height = height;
-    }   
-
-    public void GetArea()
-    {
-        Console.WriteLine($"Shape Area: {Width * Height}");
+        Console.WriteLine($"Shape Area: {width * height}");
     }
 }

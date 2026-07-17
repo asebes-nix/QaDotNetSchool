@@ -1,14 +1,9 @@
 ﻿namespace NIX.OOP.Inheritance;
 
-public class Rectangle : Shape
+public class Rectangle(double width, double height) : Shape(width, height)
 {
-    public Rectangle(double width, double height) : base(width, height)
+    public override void GetArea()
     {
-
-    }
-
-    public new void GetArea()
-    {
-        Console.WriteLine($"Rectangle Area: {Width * Height}");
+        Console.WriteLine($"Rectangle Area: {width * height}");
     }
 }

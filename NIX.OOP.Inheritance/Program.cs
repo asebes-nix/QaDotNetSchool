@@ -1,9 +1,9 @@
 ﻿using NIX.OOP.Inheritance;
 
-Shape shape = new Shape(10, 20);   
+Shape shape = new (10, 20);   
 Shape rectangle = new Rectangle(8, 8);
 shape.GetArea();
-((Rectangle)rectangle).GetArea();
+rectangle.GetArea();
 
 Shape shape1 = new Rectangle(5, 10);
 
@@ -15,9 +15,6 @@ if (shape1 is Rectangle rect1)
 Shape shape2 = new Rectangle(3, 7);
 
 Rectangle? rect2 = shape2 as Rectangle;
-if (rect2 != null)
-{
-    rect2.GetArea();
-}
+rect2?.GetArea();
 
 Console.ReadKey();  
