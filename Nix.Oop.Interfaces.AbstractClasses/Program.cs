@@ -1,17 +1,17 @@
 ﻿using Nix.Oop.Interfaces.AbstractClasses;
 
-Dog dog = new Dog();
+Animal dog = new Dog();
 dog.Sound();
-dog.Run();
-dog.Eat();
-dog.Sleep();
+((IRunable)dog).Run();
+((IEatable)dog).Eat();
+((ISleepable)dog).Sleep();
 ((IAnimal)dog).IsAnimal();
 
-Cat cat = new Cat();
+Animal cat = new Cat();
 cat.Sound();
-cat.Run();
-cat.Eat();
-cat.Sleep();
+((IRunable)cat).Run();
+((IEatable)cat).Eat();
+((ISleepable)cat).Sleep();
 ((IAnimal)cat).IsAnimal();
 
 Console.ReadKey();

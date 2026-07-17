@@ -1,20 +1,23 @@
 ﻿namespace Nix.Oop.Interfaces.AbstractClasses;
 
-public class Dog : Animal, IAnimal
+public class Dog : Animal
 {
     public override void Sound()
     {
         Console.WriteLine("Woof!");
     }
-    public void Run()
+
+    public override void Run()
     {
         Console.WriteLine("The dog is running.");
     }
-    public void Eat()
+
+    public override void Eat()
     {
         Console.WriteLine("The dog is eating.");
     }
-    public void Sleep()
+
+    public override void Sleep()
     {
         Console.WriteLine("The dog is sleeping.");
     }
