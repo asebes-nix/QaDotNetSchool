@@ -1,24 +1,14 @@
 ﻿namespace Nix.Oop.Generics;
 
-public class User
+public class User(int userId, int balance)
 {
-    private int _userId;
-    private int _balance;
-
     public int UserId
     {
-        get { return _userId; }
-        set { _userId = value; }
-    }
-    public int Balance
-    {
-        get { return _balance; }
-        set { _balance = value; }
+        get { return userId; }
     }
 
-    public User(int userId, int balance)
+    public int Balance
     {
-        _userId = userId;
-        _balance = balance;
+        get { return balance; }
     }
 }
