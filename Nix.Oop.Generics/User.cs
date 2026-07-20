@@ -2,13 +2,7 @@
 
 public class User(int userId, int balance)
 {
-    public int UserId
-    {
-        get { return userId; }
-    }
+    public int UserId => userId;
 
-    public int Balance
-    {
-        get { return balance; }
-    }
+    public int Balance { get; set; } = balance;
 }
