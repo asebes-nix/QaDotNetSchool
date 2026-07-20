@@ -19,6 +19,6 @@ audi.SetQuantity(88);
 audi.SetWarranty(8);
 audi.GetQuantity();
 audi.GetFullInfo();
-((Wv)audi).GetFullInfo("A4");
+((Audi)audi).GetFullInfo("A4", 2023);
 
 Console.ReadKey();

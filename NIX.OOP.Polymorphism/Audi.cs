@@ -7,8 +7,8 @@ public class Audi : Wv
         Console.WriteLine($"{quantity} Audi cars ready for operation");
     }
 
-    public new void GetFullInfo(string model)
+    public void GetFullInfo(string model, int year)
     {
-        Console.WriteLine($"{quantity} Audi cars ready for operation, model: {model}, and {warranty} years warranty");
+        Console.WriteLine($"{quantity} Audi cars ready for operation, model: {model}, year: {year}, and {warranty} years warranty");
     }
 }
