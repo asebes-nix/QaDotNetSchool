@@ -1,23 +1,28 @@
 ﻿namespace Nix.Oop.Interfaces.AbstractClasses;
 
-public class Dog : Animal
+public class Dog : Animal, IRunable, IEscapable, IEatable, ISleepable
 {
     public override void Sound()
     {
         Console.WriteLine("Woof!");
     }
 
-    public override void Run()
-    {
-        Console.WriteLine("The dog is running.");
+    void IRunable.Run()
+    { 
+        Console.WriteLine("The dog is running."); 
     }
 
-    public override void Eat()
+    void IEscapable.Run() 
+    { 
+        Console.WriteLine("The dog is escaping!"); 
+    }
+
+    void IEatable.Eat()
     {
         Console.WriteLine("The dog is eating.");
     }
 
-    public override void Sleep()
+    void ISleepable.Sleep()
     {
         Console.WriteLine("The dog is sleeping.");
     }
