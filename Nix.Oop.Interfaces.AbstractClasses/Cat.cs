@@ -1,6 +1,6 @@
 ﻿namespace Nix.Oop.Interfaces.AbstractClasses;
 
-public class Cat : Animal, IRunable, IEscapable, IEatable, ISleepable
+public class Cat : Animal, IAnimal, IEscapable
 {
     public override void Sound()
     {
@@ -17,12 +17,12 @@ public class Cat : Animal, IRunable, IEscapable, IEatable, ISleepable
         Console.WriteLine("The cat is escaping!");
     }
 
-    void IEatable.Eat()
+    public void Eat()
     {
         Console.WriteLine("The cat is eating.");
     }
 
-    void ISleepable.Sleep()
+    public void Sleep()
     {
         Console.WriteLine("The cat is sleeping.");
     }
