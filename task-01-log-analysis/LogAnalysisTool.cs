@@ -11,14 +11,15 @@ public class LogAnalyzer
 
         try
         {
-            string[] logLines = File.ReadAllLines(inputPath);
-            totalCount = logLines.Length;
-
-            using (StreamWriter writer = new StreamWriter("errors.log"))
+            using (StreamReader reader = new(inputPath))
+            using (StreamWriter writer = new("errors.log"))
             {
-                foreach (string line in logLines)
+                string? line;
+                while ((line = reader.ReadLine()) != null)
                 {
-                    if (Regex.IsMatch(line, "error", RegexOptions.IgnoreCase))
+                    totalCount++;
+
+                    if (Regex.IsMatch(line, "^\\d{2}:\\d{2}:\\d{2} E:"))
                     {
                         try
                         {
@@ -42,13 +43,10 @@ public class LogAnalyzer
                 throw new DivideByZeroException("No errors found in the logs.");
             }
         }
-        catch (CriticalErrorException ex)
-        {
-            Console.WriteLine($"CRITICAL ERROR found: {ex.Message}");
-        }
         catch (DivideByZeroException ex)
         {
             Console.WriteLine($"Division error: {ex.Message}");
+            return 0;
         }
         catch (Exception ex)
         {

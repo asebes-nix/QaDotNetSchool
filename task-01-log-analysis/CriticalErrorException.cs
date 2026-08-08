@@ -1,8 +1,5 @@
 ﻿namespace Nix.Exceptions;
 
-public class CriticalErrorException : Exception
+public class CriticalErrorException(string message) : Exception(message)
 {
-    public CriticalErrorException(string message) : base(message)
-    {
-    }
 }
