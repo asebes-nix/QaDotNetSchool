@@ -46,7 +46,7 @@ foreach (var lang in languages)
     Console.WriteLine(lang);
 
 // Task 3.2
-var populationByLanguage = await Task3.GetPopulationByLanguage(languages);
+var populationByLanguage = await Task3.GetPopulationByLanguage();
 foreach (var kv in populationByLanguage)
     Console.WriteLine($"{kv.Key}: {kv.Value}");
 Console.ReadKey();

@@ -11,8 +11,7 @@ public static class Task2
     {
         var client = new RestClient("https://nghttp2.org/httpbin/");
         var request = new RestRequest("post", Method.Post);
-        request.AddHeader("User-Agent", "Learning Automation");
-
+        
         foreach (var kv in headers)
         {
             request.AddHeader(kv.Key, kv.Value);
@@ -31,16 +30,16 @@ public static class Task2
         var formDict = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
         var headerDict = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
 
-        using var doc = JsonDocument.Parse(response.Content);
+        using var doc = JsonDocument.Parse(response.Content ?? "{}");
         if (doc.RootElement.TryGetProperty("form", out var formElement) && formElement.ValueKind == JsonValueKind.Object)
         {
             foreach (var prop in formElement.EnumerateObject())
                 formDict[prop.Name] = prop.Value.GetString() ?? string.Empty;
         }
 
-        foreach (var h in response.Headers)
+        foreach (var h in response.Headers ?? [])
         {
-            headerDict[h.Name] = h.Value?.ToString();
+            headerDict[h.Name ?? string.Empty] = h.Value?.ToString() ?? string.Empty;
         }
 
         return (formDict, headerDict);

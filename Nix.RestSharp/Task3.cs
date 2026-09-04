@@ -5,17 +5,20 @@ namespace Nix.RestSharp;
 
 public static class Task3
 {
-    //Task 3.1
-    public static async Task<List<string>> GetAllLanguages()
+    private static async Task<JsonDocument> FetchCountries()
     {
-        var client = new RestClient("https://restcountries.com/v3/");
-        var request = new RestRequest("all");
+        var client = new RestClient("https://restcountries.com/");
+        var request = new RestRequest("v3.1/all");
         request.AddQueryParameter("fields", "languages,population");
         var response = await client.ExecuteAsync(request);
+        return JsonDocument.Parse(response.Content ?? "[]");
+    }
+
+    public static async Task<List<string>> GetAllLanguages()
+    {
+        using var json = await FetchCountries();
         var languages = new List<string>();
-        var json = JsonDocument.Parse(response.Content);
-        var countries = json.RootElement.EnumerateArray();
-        foreach (var country in countries)
+        foreach (var country in json.RootElement.EnumerateArray())
         {
             if (country.TryGetProperty("languages", out var langs))
             {
@@ -29,17 +32,11 @@ public static class Task3
         return languages;
     }
 
-    //Task 3.2
-    public static async Task<Dictionary<string, long>> GetPopulationByLanguage(List<string> languageCodes)
+    public static async Task<Dictionary<string, long>> GetPopulationByLanguage()
     {
-        var client = new RestClient("https://restcountries.com/v3/");
-        var request = new RestRequest("all");
-        request.AddQueryParameter("fields", "languages,population");
-        var response = await client.ExecuteAsync(request);
+        using var json = await FetchCountries();
         var populationByLanguage = new Dictionary<string, long>();
-        var json = JsonDocument.Parse(response.Content);
-        var countries = json.RootElement.EnumerateArray();
-        foreach (var country in countries)
+        foreach (var country in json.RootElement.EnumerateArray())
         {
             if (country.TryGetProperty("languages", out var langs) && country.TryGetProperty("population", out var population))
             {

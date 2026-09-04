@@ -12,12 +12,12 @@ public static class Task1
         var response = await client.ExecuteAsync(request);
 
         var paths = new List<string>();
-        var json = JsonDocument.Parse(response.Content);
+        using var json = JsonDocument.Parse(response.Content ?? "{}");
         var pathsElement = json.RootElement.GetProperty("paths");
 
         foreach (var path in pathsElement.EnumerateObject())
         {
-            if (!path.Name.Contains("{"))
+            if (!path.Name.Contains('{'))
                 paths.Add(path.Name);
         }
 
@@ -34,13 +34,6 @@ public static class Task1
             var request = new RestRequest(path, Method.Get);
             request.AddHeader("User-Agent", "Learning Automation");
             var response = await client.ExecuteAsync(request);
-
-            if (response == null)
-            {
-                results[path] = -1;
-                continue;
-            }
-
             var statusCode = (int)response.StatusCode;
             if (statusCode != 200)
             {
