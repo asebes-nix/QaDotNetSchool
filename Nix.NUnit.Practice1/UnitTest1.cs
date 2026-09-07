@@ -62,7 +62,7 @@ public class Task3Tests
     public async Task GetPopulationByLanguage_ResultIsNotEmpty()
     {
         var languages = await Task3.GetAllLanguages();
-        var result = await Task3.GetPopulationByLanguage(languages);
+        var result = await Task3.GetPopulationByLanguage();
 
         Assert.That(result, Is.Not.Empty);
     }
@@ -71,7 +71,7 @@ public class Task3Tests
     public async Task GetPopulationByLanguage_AllPopulationsArePositive()
     {
         var languages = await Task3.GetAllLanguages();
-        var result = await Task3.GetPopulationByLanguage(languages);
+        var result = await Task3.GetPopulationByLanguage();
 
         Assert.That(result.Values, Is.All.GreaterThan(0));
     }
