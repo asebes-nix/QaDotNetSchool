@@ -26,10 +26,34 @@ namespace Nix.NUnit.MathApi
             Assert.That(result.Trim(), Is.EqualTo("4"));
         }
 
+        [Test]
+        [Category("Addition")]
+        public async Task Add_2Plus3_Returns5()
+        {
+            var requestBody = new { expr = "2+3" };
+            string json = System.Text.Json.JsonSerializer.Serialize(requestBody);
+            var content = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
+
+            HttpResponseMessage response = await _httpClient.PostAsync("http://api.mathjs.org/v4/", content);
+            string responseBody = await response.Content.ReadAsStringAsync();
+
+            var options = new System.Text.Json.JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+            MathApiResponse? parsed = System.Text.Json.JsonSerializer.Deserialize<MathApiResponse>(responseBody, options);
+
+            Assert.That(parsed, Is.Not.Null);
+            Assert.That(parsed!.Result, Is.EqualTo("5"));
+        }
+
         [OneTimeTearDown]
         public void OneTimeTearDown()
         {
             _httpClient.Dispose();
         }
+    }
+
+    public class MathApiResponse
+    {
+        public string? Result { get; set; }
+        public string? Error { get; set; }
     }
 }
