@@ -62,6 +62,40 @@ namespace Nix.NUnit.MathApi
             Assert.That(parsed!.Result, Is.EqualTo("8"));
         }
 
+        [Test]
+        [Category("Multiplication")]
+        public async Task Multiply_2Times4_Returns8()
+        {
+            var requestBody = new { expr = "2*4" };
+            string json = System.Text.Json.JsonSerializer.Serialize(requestBody);
+            var content = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
+
+            HttpResponseMessage response = await _httpClient.PostAsync("http://api.mathjs.org/v4/", content);
+            string responseBody = await response.Content.ReadAsStringAsync();
+
+            var options = new System.Text.Json.JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+            MathApiResponse? parsed = System.Text.Json.JsonSerializer.Deserialize<MathApiResponse>(responseBody, options);
+
+            Assert.That(parsed, Is.Not.Null);
+            Assert.That(parsed!.Result, Is.EqualTo("8"));
+        }
+
+        [Test]
+        [Category("Division")]
+
+        public async Task Divide_16DividedBy2_Returns8()
+        {
+            var requestBody = new { expr = "16/2" };
+            string json = System.Text.Json.JsonSerializer.Serialize(requestBody);
+            var content = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
+            HttpResponseMessage response = await _httpClient.PostAsync("http://api.mathjs.org/v4/", content);
+            string responseBody = await response.Content.ReadAsStringAsync();
+            var options = new System.Text.Json.JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+            MathApiResponse? parsed = System.Text.Json.JsonSerializer.Deserialize<MathApiResponse>(responseBody, options);
+            Assert.That(parsed, Is.Not.Null);
+            Assert.That(parsed!.Result, Is.EqualTo("8"));
+        }
+
         [OneTimeTearDown]
         public void OneTimeTearDown()
         {
