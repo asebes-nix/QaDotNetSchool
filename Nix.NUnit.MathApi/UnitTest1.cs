@@ -7,7 +7,7 @@ namespace Nix.NUnit.MathApi
     public class Tests
     {
         private HttpClient _httpClient;
-
+        private int _roundingIndex;
         private static readonly System.Text.Json.JsonSerializerOptions _jsonOptions = new() { PropertyNameCaseInsensitive = true };
 
         [OneTimeSetUp]
@@ -15,6 +15,9 @@ namespace Nix.NUnit.MathApi
         {
             _httpClient = new HttpClient();
             _httpClient.DefaultRequestHeaders.Add("User-Agent", "Learning Automation");
+
+            string roundingIndexString = TestContext.Parameters.Get("RoundingIndex", "2");
+            _roundingIndex = int.Parse(roundingIndexString);
         }
 
         private async Task<string> PostMathExpressionAsync(string expr)
@@ -66,13 +69,14 @@ namespace Nix.NUnit.MathApi
             Assert.That(result, Is.EqualTo(expected));
         }
 
-        [TestCase("24/3", "8")]
-        [TestCase("32/4", "8")]
+        [TestCase("25/3", 8.33)]
+        [TestCase("33/4", 8.25)]
         [Category("Division")]
-        public async Task Division_ReturnsExpectedResult(string expr, string expected)
+        public async Task Division_ReturnsExpectedResult(string expr, double expected)
         {
             string result = await PostMathExpressionAsync(expr);
-            Assert.That(result, Is.EqualTo(expected));
+            double actual = Math.Round(double.Parse(result), _roundingIndex);
+            Assert.That(actual, Is.EqualTo(expected));
         }
 
         [TestCase("sqrt(64)", "8")]
@@ -83,7 +87,7 @@ namespace Nix.NUnit.MathApi
             string result = await GetMathExpressionAsync(expr);
             Assert.That(result, Is.EqualTo(expected));
         }
-               
+
         [OneTimeTearDown]
         public void OneTimeTearDown()
         {
