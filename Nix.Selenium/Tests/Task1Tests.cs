@@ -29,7 +29,6 @@ namespace Nix.Selenium.Tests
                 Assert.That(loginPage.GetErrorMessage(), Is.EqualTo("Epic sadface: Sorry, this user has been locked out."));
             }));
             loginPage.CloseErrorMessage();
-            //Thread.Sleep(2000);
         }
 
         [TearDown]

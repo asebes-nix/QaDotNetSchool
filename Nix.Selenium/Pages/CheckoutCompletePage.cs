@@ -1,12 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using OpenQA.Selenium;
 
 namespace Nix.Selenium.Pages
 {
-    internal class CheckoutCompletePage
+    internal class CheckoutCompletePage(IWebDriver webDriver)
     {
+        private IWebElement PonyExpressImage => webDriver.FindElement(By.CssSelector("img[alt='Pony Express']"));
+
+        public bool IsPonyExpressImageDisplayed()
+        {
+            return PonyExpressImage.Displayed;
+        }
     }
 }

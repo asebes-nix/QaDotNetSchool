@@ -64,5 +64,24 @@ namespace Nix.Selenium.Pages
             var badges = webDriver.FindElements(By.ClassName("shopping_cart_badge"));
             return badges.Count == 0 ? 0 : int.Parse(badges[0].Text);
         }
+        private IReadOnlyCollection<IWebElement> ProductNames => webDriver.FindElements(By.CssSelector("[data-test='inventory-item-name']"));
+
+        public decimal GetProductPrice(string productName)
+        {
+            var names = ProductNames.Select(element => element.Text).ToList();
+            var prices = GetDisplayedPrices();
+            int index = names.IndexOf(productName);
+            return prices[index];
+        }
+
+        private IWebElement CartLink => webDriver.FindElement(By.ClassName("shopping_cart_link"));
+
+        public CartPage GoToCart()
+        {
+            CartLink.Click();
+            new WebDriverWait(webDriver, TimeSpan.FromSeconds(5))
+                .Until(driver => driver.FindElement(By.Id("cart_contents_container")).Displayed);
+            return new CartPage(webDriver);
+        }
     }
 }
