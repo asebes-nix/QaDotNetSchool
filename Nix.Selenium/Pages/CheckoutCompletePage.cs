@@ -1,14 +1,13 @@
 ﻿using OpenQA.Selenium;
 
-namespace Nix.Selenium.Pages
-{
-    internal class CheckoutCompletePage(IWebDriver webDriver)
-    {
-        private IWebElement PonyExpressImage => webDriver.FindElement(By.CssSelector("img[alt='Pony Express']"));
+namespace Nix.Selenium.Pages;
 
-        public bool IsPonyExpressImageDisplayed()
-        {
-            return PonyExpressImage.Displayed;
-        }
+internal class CheckoutCompletePage(IWebDriver webDriver)
+{
+    private IWebElement PonyExpressImage => webDriver.FindElement(By.CssSelector("img[alt='Pony Express']"));
+
+    public bool IsPonyExpressImageDisplayed()
+    {
+        return PonyExpressImage.Displayed;
     }
 }

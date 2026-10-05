@@ -1,110 +1,130 @@
-﻿using Nix.Selenium.Pages;
+﻿using Nix.Selenium.Helpers;
+using Nix.Selenium.Pages;
 using OpenQA.Selenium;
-using OpenQA.Selenium.Chrome;
 
-namespace Nix.Selenium.Tests
+namespace Nix.Selenium.Tests;
+
+internal class Task2Tests
 {
-    internal class Task2Tests
+    private IWebDriver _driver;
+    private InventoryPage _inventoryPage;
+
+    [SetUp]
+    public void SetUp()
     {
-        private IWebDriver driver;
-        private InventoryPage inventoryPage;
+        _driver = DriverFactory.CreateChrome();
+        _driver.Navigate().GoToUrl("https://www.saucedemo.com/");
 
-        [SetUp]
-        public void SetUp()
+        new LoginPage(_driver)
+            .EnterUsername("standard_user")
+            .EnterPassword("secret_sauce")
+            .ClickLoginButton();
+
+        _inventoryPage = new InventoryPage(_driver);
+    }
+
+    [Test]
+    public void StandardUser_CanSortProductsByPriceLowToHigh()
+    {
+        Assert.That(_inventoryPage.IsInventoryContainerDisplayed(), Is.True, "Expected to land on the inventory page after login");
+
+        _inventoryPage.SortByLowToHigh();
+
+        var prices = _inventoryPage.GetDisplayedPrices();
+        Assert.That(prices, Is.Ordered.Ascending, "Expected prices to be sorted from low to high");
+    }
+
+    [Test]
+    public void AddingProductToCart_ShowsRemoveButtonAndUpdatesBadge()
+    {
+        const string product = "Sauce Labs Bolt T-Shirt";
+
+        _inventoryPage.AddProductToCart(product);
+
+        Assert.Multiple((Action)(() =>
         {
-            driver = new ChromeDriver();
-            driver.Navigate().GoToUrl("https://www.saucedemo.com/");
+            Assert.That(_inventoryPage.IsProductInCart(product), Is.True, "Expected the button to switch to Remove");
+            Assert.That(_inventoryPage.GetCartItemCount(), Is.EqualTo(1), "Expected the cart badge to show 1 item");
+        }));
+    }
 
-            new LoginPage(driver)
-                .EnterUsername("standard_user")
-                .EnterPassword("secret_sauce")
-                .ClickLoginButton();
+    [Test]
+    public void RemovingProductFromCart_HidesBadgeAndRestoresAddButton()
+    {
+        const string product = "Sauce Labs Bolt T-Shirt";
 
-            inventoryPage = new InventoryPage(driver);
-        }
+        _inventoryPage.AddProductToCart(product);
+        _inventoryPage.RemoveProductFromCart(product);
 
-        [Test]
-        public void StandardUser_CanSortProductsByPriceLowToHigh()
+        Assert.Multiple((Action)(() =>
         {
-            Assert.That(inventoryPage.IsInventoryContainerDisplayed(), Is.True, "Expected to land on the inventory page after login");
+            Assert.That(_inventoryPage.IsProductInCart(product), Is.False, "Expected the button to switch back to Add to cart");
+            Assert.That(_inventoryPage.GetCartItemCount(), Is.EqualTo(0), "Expected the cart badge to disappear");
+        }));
+    }
 
-            inventoryPage.SortByLowToHigh();
+    [Test]
+    public void CartPage_ShowsCorrectlyAddedProductData()
+    {
+        const string product = "Sauce Labs Backpack";
+        decimal expectedPrice = _inventoryPage.GetProductPrice(product);
 
-            var prices = inventoryPage.GetDisplayedPrices();
-            Assert.That(prices, Is.Ordered.Ascending, "Expected prices to be sorted from low to high");
-        }
+        var cartPage = _inventoryPage.AddProductToCart(product).GoToCart();
 
-        [Test]
-        public void AddingProductToCart_ShowsRemoveButtonAndUpdatesBadge()
+        Assert.Multiple((Action)(() =>
         {
-            const string product = "Sauce Labs Bolt T-Shirt";
+            Assert.That(cartPage.IsProductListed(product), Is.True, "Expected the added product to appear in the cart");
+            Assert.That(cartPage.GetProductPrice(product), Is.EqualTo(expectedPrice), "Expected the cart price to match the inventory price");
+        }));
+    }
 
-            inventoryPage.AddProductToCart(product);
+    [Test]
+    public void RemovingProductInCart_ClearsBadge_AndContinueShoppingAllowsAddingAnotherProduct()
+    {
+        const string firstProduct = "Sauce Labs Bolt T-Shirt";
+        const string secondProduct = "Sauce Labs Backpack";
 
-            Assert.Multiple((Action)(() =>
-            {
-                Assert.That(inventoryPage.IsProductInCart(product), Is.True, "Expected the button to switch to Remove");
-                Assert.That(inventoryPage.GetCartItemCount(), Is.EqualTo(1), "Expected the cart badge to show 1 item");
-            }));
-        }
+        var cartPage = _inventoryPage.AddProductToCart(firstProduct).GoToCart();
+        cartPage.RemoveProduct(firstProduct);
 
-        [Test]
-        public void RemovingProductFromCart_HidesBadgeAndRestoresAddButton()
+        Assert.Multiple((Action)(() =>
         {
-            const string product = "Sauce Labs Bolt T-Shirt";
+            Assert.That(cartPage.IsProductListed(firstProduct), Is.False, "Expected the removed product to disappear from the cart");
+            Assert.That(cartPage.GetCartItemCount(), Is.EqualTo(0), "Expected the cart badge to disappear");
+        }));
 
-            inventoryPage.AddProductToCart(product);
-            inventoryPage.RemoveProductFromCart(product);
+        var inventoryPage = cartPage.ClickContinueShopping();
+        inventoryPage.AddProductToCart(secondProduct);
 
-            Assert.Multiple((Action)(() =>
-            {
-                Assert.That(inventoryPage.IsProductInCart(product), Is.False, "Expected the button to switch back to Add to cart");
-                Assert.That(inventoryPage.GetCartItemCount(), Is.EqualTo(0), "Expected the cart badge to disappear");
-            }));
-        }
+        Assert.That(inventoryPage.IsProductInCart(secondProduct), Is.True, "Expected the second product to be added after continuing shopping");
+    }
 
-        [Test]
-        public void CartPage_ShowsCorrectlyAddedProductData()
-        {
-            const string product = "Sauce Labs Backpack";
-            decimal expectedPrice = inventoryPage.GetProductPrice(product);
+    [Test]
+    public void CompletingCheckout_ShowsCorrectItemTotalAndThankYouPage()
+    {
+        const string product = "Sauce Labs Backpack";
+        decimal expectedPrice = _inventoryPage.GetProductPrice(product);
 
-            var cartPage = inventoryPage.AddProductToCart(product).GoToCart();
+        var checkoutStepTwo = _inventoryPage
+            .AddProductToCart(product)
+            .GoToCart()
+            .ClickCheckout()
+            .EnterFirstName("Andras")
+            .EnterLastName("Sebes")
+            .EnterPostalCode("1111")
+            .ClickContinue();
 
-            Assert.Multiple((Action)(() =>
-            {
-                Assert.That(cartPage.IsProductListed(product), Is.True, "Expected the added product to appear in the cart");
-                Assert.That(cartPage.GetProductPrice(product), Is.EqualTo(expectedPrice), "Expected the cart price to match the inventory price");
-            }));
-        }
+        Assert.That(checkoutStepTwo.GetItemTotal(), Is.EqualTo(expectedPrice), "Expected the item total to match the product price");
 
-        [Test]
-        public void CompletingCheckout_ShowsCorrectItemTotalAndThankYouPage()
-        {
-            const string product = "Sauce Labs Backpack";
-            decimal expectedPrice = inventoryPage.GetProductPrice(product);
+        var completePage = checkoutStepTwo.ClickFinish();
 
-            var checkoutStepTwo = inventoryPage
-                .AddProductToCart(product)
-                .GoToCart()
-                .ClickCheckout()
-                .EnterFirstName("Andras")
-                .EnterLastName("Sebes")
-                .EnterPostalCode("1111")
-                .ClickContinue();
+        Assert.That(completePage.IsPonyExpressImageDisplayed(), Is.True, "Expected the Thank You page to show the Pony Express image");
+    }
 
-            Assert.That(checkoutStepTwo.GetItemTotal(), Is.EqualTo(expectedPrice), "Expected the item total to match the product price");
-
-            var completePage = checkoutStepTwo.ClickFinish();
-
-            Assert.That(completePage.IsPonyExpressImageDisplayed(), Is.True, "Expected the Thank You page to show the Pony Express image");
-        }
-
-        [TearDown]
-        public void TearDown()
-        {
-            driver.Quit();
-            driver.Dispose();
-        }
+    [TearDown]
+    public void TearDown()
+    {
+        _driver.Quit();
+        _driver.Dispose();
     }
 }
