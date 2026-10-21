@@ -1,5 +1,4 @@
 ﻿using RestSharp;
-using System;
 using System.Text.Json;
 
 namespace Nix.NUnit.Practice1;
