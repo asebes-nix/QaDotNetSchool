@@ -109,13 +109,13 @@ namespace Nix.Reqnroll.DemoQa.Features
 #line 6
 #line hidden
 #line 7
-  await testRunner.GivenAsync("the user opens the \'Elements\' category", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+ await testRunner.GivenAsync("the user opens the \'Elements\' category", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
         }
         
         private static global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages InitializeCucumberMessages()
         {
-            return new global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages("Features/Elements.feature.ndjson", 3);
+            return new global::Reqnroll.Formatters.RuntimeSupport.FeatureLevelCucumberMessages("Features/Elements.feature.ndjson", 4);
         }
         
         [global::NUnit.Framework.TestAttribute()]
@@ -144,7 +144,7 @@ this.ScenarioInitialize(scenarioInfo, ruleInfo);
 await this.FeatureBackgroundAsync();
 #line hidden
 #line 11
-  await testRunner.GivenAsync("the user opens the \'Text Box\' section", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+ await testRunner.GivenAsync("the user opens the \'Text Box\' section", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
                 global::Reqnroll.Table table1 = new global::Reqnroll.Table(new string[] {
                             "Field",
@@ -162,10 +162,86 @@ await this.FeatureBackgroundAsync();
                             "Permanent Address",
                             "Szeged, Regression ter 1"});
 #line 12
-  await testRunner.WhenAsync("the user submits the Text Box form with the following data", ((string)(null)), table1, "When ");
+ await testRunner.WhenAsync("the user submits the Text Box form with the following data", ((string)(null)), table1, "When ");
 #line hidden
 #line 18
-  await testRunner.ThenAsync("the output shows the submitted data", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+ await testRunner.ThenAsync("the output shows the submitted data", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+            }
+            await this.ScenarioCleanupAsync();
+        }
+        
+        [global::NUnit.Framework.TestAttribute()]
+        [global::NUnit.Framework.DescriptionAttribute("Selected Check Box items are listed in the result")]
+        [global::NUnit.Framework.CategoryAttribute("checkbox")]
+        public async global::System.Threading.Tasks.Task SelectedCheckBoxItemsAreListedInTheResult()
+        {
+            string[] tagsOfScenario = new string[] {
+                    "checkbox"};
+            global::System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new global::System.Collections.Specialized.OrderedDictionary();
+            string pickleIndex = "1";
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Selected Check Box items are listed in the result", null, tagsOfScenario, argumentsOfScenario, featureTags, pickleIndex);
+            string[] tagsOfRule = ((string[])(null));
+            global::Reqnroll.RuleInfo ruleInfo = null;
+#line 21
+this.ScenarioInitialize(scenarioInfo, ruleInfo);
+#line hidden
+            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                await testRunner.SkipScenarioAsync();
+            }
+            else
+            {
+                await this.ScenarioStartAsync();
+#line 6
+await this.FeatureBackgroundAsync();
+#line hidden
+#line 22
+ await testRunner.GivenAsync("the user opens the \'Check Box\' section", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 23
+ await testRunner.WhenAsync("the user expands the \'Home\' folder", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 24
+ await testRunner.AndAsync("the user checks the \'Desktop\' item", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 25
+ await testRunner.AndAsync("the user expands the \'Documents\' folder", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 26
+ await testRunner.AndAsync("the user expands the \'WorkSpace\' folder", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 27
+ await testRunner.AndAsync("the user checks the \'Angular\' item", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 28
+ await testRunner.AndAsync("the user checks the \'Veu\' item", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 29
+ await testRunner.AndAsync("the user expands the \'Office\' folder", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+                global::Reqnroll.Table table2 = new global::Reqnroll.Table(new string[] {
+                            "Item"});
+                table2.AddRow(new string[] {
+                            "Public"});
+                table2.AddRow(new string[] {
+                            "Private"});
+                table2.AddRow(new string[] {
+                            "Classified"});
+                table2.AddRow(new string[] {
+                            "General"});
+#line 30
+ await testRunner.AndAsync("the user checks the following items", ((string)(null)), table2, "And ");
+#line hidden
+#line 36
+ await testRunner.AndAsync("the user expands the \'Downloads\' folder", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 37
+ await testRunner.AndAsync("the user checks the \'Downloads\' item", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 38
+ await testRunner.ThenAsync("the Check Box result shows \'You have selected : desktop notes commands angular ve" +
+                        "u office public private classified general downloads wordFile excelFile\'", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();
