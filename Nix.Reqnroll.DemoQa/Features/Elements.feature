@@ -37,7 +37,9 @@ Scenario: Selected Check Box items are listed in the result
 	And the user checks the 'Downloads' item
 	Then the Check Box result shows 'You have selected : desktop notes commands angular veu office public private classified general downloads wordFile excelFile'
 
-@ignore @webtables
+# Known issue: demoqa.com no longer sorts Web Tables by header click.
+# Expected to fail until the site is fixed (agreed with mentor).
+@webtables
 Scenario: Salary column is sorted in ascending order after clicking its header
 	Given the user opens the 'Web Tables' section
 	When the user clicks the 'Salary' column header
