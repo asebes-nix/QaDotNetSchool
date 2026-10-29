@@ -36,3 +36,16 @@ Scenario: Selected Check Box items are listed in the result
 	And the user expands the 'Downloads' folder
 	And the user checks the 'Downloads' item
 	Then the Check Box result shows 'You have selected : desktop notes commands angular veu office public private classified general downloads wordFile excelFile'
+
+@ignore @webtables
+Scenario: Salary column is sorted in ascending order after clicking its header
+	Given the user opens the 'Web Tables' section
+	When the user clicks the 'Salary' column header
+	Then the values in the 'Salary' column are in ascending order
+
+@webtables
+Scenario: Deleted row is removed from the table
+	Given the user opens the 'Web Tables' section
+	When the user deletes the row of 'Alden'
+	Then the table has 2 rows
+	And the 'Department' column does not contain 'Compliance'

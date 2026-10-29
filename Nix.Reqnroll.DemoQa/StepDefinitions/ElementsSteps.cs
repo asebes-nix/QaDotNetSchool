@@ -10,6 +10,7 @@ public class ElementsSteps(IWebDriver driver)
 {
     private readonly TextBoxPage _textBoxPage = new(driver);
     private readonly CheckBoxPage _checkBoxPage = new(driver);
+    private readonly WebTablesPage _webTablesPage = new(driver);
     private readonly Dictionary<string, string> _submittedData = [];
 
 
@@ -67,5 +68,37 @@ public class ElementsSteps(IWebDriver driver)
 
         Assert.That(_checkBoxPage.GetSelectedItems(), Is.EquivalentTo(expectedItems),
             "Expected exactly the listed items to be selected");
+    }
+
+    [When("the user clicks the {string} column header")]
+    public void WhenTheUserClicksTheColumnHeader(string column)
+    {
+        _webTablesPage.ClickColumnHeader(column);
+    }
+
+    [When("the user deletes the row of {string}")]
+    public void WhenTheUserDeletesTheRowOf(string firstName)
+    {
+        _webTablesPage.DeleteRow(firstName);
+    }
+
+    [Then("the values in the {string} column are in ascending order")]
+    public void ThenTheValuesInTheColumnAreInAscendingOrder(string column)
+    {
+        List<decimal> values = [.. _webTablesPage.GetColumnValues(column).Select(decimal.Parse)];
+
+        Assert.That(values, Is.Ordered.Ascending, $"Expected '{column}' values to be in ascending order");
+    }
+
+    [Then("the table has {int} rows")]
+    public void ThenTheTableHasRows(int expectedCount)
+    {
+        Assert.That(_webTablesPage.GetRowCount(), Is.EqualTo(expectedCount));
+    }
+
+    [Then("the {string} column does not contain {string}")]
+    public void ThenTheColumnDoesNotContain(string column, string value)
+    {
+        Assert.That(_webTablesPage.GetColumnValues(column), Does.Not.Contain(value));
     }
 }
