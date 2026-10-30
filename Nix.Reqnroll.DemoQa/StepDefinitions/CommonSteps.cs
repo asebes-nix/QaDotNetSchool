@@ -1,6 +1,5 @@
 ﻿using Nix.Reqnroll.DemoQa.Pages;
 using OpenQA.Selenium;
-using Reqnroll;
 
 namespace Nix.Reqnroll.DemoQa.StepDefinitions;
 

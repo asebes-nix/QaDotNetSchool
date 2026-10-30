@@ -1,7 +1,6 @@
 ﻿using Nix.Reqnroll.DemoQa.Pages;
 using NUnit.Framework;
 using OpenQA.Selenium;
-using Reqnroll;
 
 namespace Nix.Reqnroll.DemoQa.StepDefinitions;
 
@@ -11,6 +10,7 @@ public class ElementsSteps(IWebDriver driver)
     private readonly TextBoxPage _textBoxPage = new(driver);
     private readonly CheckBoxPage _checkBoxPage = new(driver);
     private readonly WebTablesPage _webTablesPage = new(driver);
+    private readonly ButtonsPage _buttonsPage = new(driver);
     private readonly Dictionary<string, string> _submittedData = [];
 
 
@@ -100,5 +100,18 @@ public class ElementsSteps(IWebDriver driver)
     public void ThenTheColumnDoesNotContain(string column, string value)
     {
         Assert.That(_webTablesPage.GetColumnValues(column), Does.Not.Contain(value));
+    }
+
+    [When("the user clicks the {string} button")]
+    public void WhenTheUserClicksTheButton(string button)
+    {
+        _buttonsPage.ClickButton(button);
+    }
+
+    [Then("only the message {string} is displayed")]
+    public void ThenOnlyTheMessageIsDisplayed(string message)
+    {
+        Assert.That(_buttonsPage.GetMessages(), Is.EqualTo([message]),
+            "Expected exactly one confirmation message");
     }
 }

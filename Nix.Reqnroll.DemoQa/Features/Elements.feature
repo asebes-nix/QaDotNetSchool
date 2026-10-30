@@ -38,7 +38,7 @@ Scenario: Selected Check Box items are listed in the result
 	Then the Check Box result shows 'You have selected : desktop notes commands angular veu office public private classified general downloads wordFile excelFile'
 
 # Known issue: demoqa.com no longer sorts Web Tables by header click.
-# Expected to fail until the site is fixed (agreed with mentor).
+# Expected to fail (agreed with mentor).
 @webtables
 Scenario: Salary column is sorted in ascending order after clicking its header
 	Given the user opens the 'Web Tables' section
@@ -51,3 +51,15 @@ Scenario: Deleted row is removed from the table
 	When the user deletes the row of 'Alden'
 	Then the table has 2 rows
 	And the 'Department' column does not contain 'Compliance'
+
+@buttons
+Scenario Outline: Clicking a button in its required way shows the matching message
+  Given the user opens the 'Buttons' section
+  When the user clicks the '<button>' button
+  Then only the message '<message>' is displayed
+
+Examples:
+  | button          | message                       |
+  | Double Click Me | You have done a double click  |
+  | Right Click Me  | You have done a right click   |
+  | Click Me        | You have done a dynamic click |
