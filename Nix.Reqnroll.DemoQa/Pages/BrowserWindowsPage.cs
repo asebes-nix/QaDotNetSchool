@@ -12,7 +12,7 @@ internal class BrowserWindowsPage(IWebDriver driver) : BasePage(driver)
 
     public BrowserWindowsPage OpenAndSwitchToNewWindow(string buttonName)
     {
-        IReadOnlyCollection<string> existingWindows = Driver.WindowHandles;
+        var existingWindows = Driver.WindowHandles;
 
         Click(Button(buttonName));
 
