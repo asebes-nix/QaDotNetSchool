@@ -1,6 +1,5 @@
 ﻿using Nix.Reqnroll.DemoQa.Drivers;
 using OpenQA.Selenium;
-using Reqnroll;
 using Reqnroll.BoDi;
 
 namespace Nix.Reqnroll.DemoQa.Support;

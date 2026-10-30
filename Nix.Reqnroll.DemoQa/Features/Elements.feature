@@ -54,12 +54,12 @@ Scenario: Deleted row is removed from the table
 
 @buttons
 Scenario Outline: Clicking a button in its required way shows the matching message
-  Given the user opens the 'Buttons' section
-  When the user clicks the '<button>' button
-  Then only the message '<message>' is displayed
+	Given the user opens the 'Buttons' section
+	When the user clicks the '<button>' button
+	Then only the message '<message>' is displayed
 
 Examples:
-  | button          | message                       |
-  | Double Click Me | You have done a double click  |
-  | Right Click Me  | You have done a right click   |
-  | Click Me        | You have done a dynamic click |
+	| button          | message                       |
+	| Double Click Me | You have done a double click  |
+	| Right Click Me  | You have done a right click   |
+	| Click Me        | You have done a dynamic click |

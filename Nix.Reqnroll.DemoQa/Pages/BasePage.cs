@@ -36,16 +36,6 @@ internal abstract class BasePage(IWebDriver driver)
         }
     }
 
-    private void RemoveAds()
-    {
-        ((IJavaScriptExecutor)driver).ExecuteScript(
-            """
-        document.querySelectorAll(
-            "ins.adsbygoogle, [id^='google_ads'], iframe[src*='doubleclick'], iframe[src*='googlesyndication'], #fixedban"
-        ).forEach(ad => ad.remove());
-        """);
-    }
-
     protected void Click(By locator)
     {
         IWebElement element = ScrollTo(locator);
@@ -58,5 +48,15 @@ internal abstract class BasePage(IWebDriver driver)
         {
             ((IJavaScriptExecutor)driver).ExecuteScript("arguments[0].click();", element);
         }
+    }
+
+    private void RemoveAds()
+    {
+        ((IJavaScriptExecutor)driver).ExecuteScript(
+            """
+        document.querySelectorAll(
+            "ins.adsbygoogle, [id^='google_ads'], iframe[src*='doubleclick'], iframe[src*='googlesyndication'], #fixedban"
+        ).forEach(ad => ad.remove());
+        """);
     }
 }

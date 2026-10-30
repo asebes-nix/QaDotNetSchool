@@ -30,7 +30,7 @@ internal class PracticeFormPage(IWebDriver driver) : BasePage(driver)
     private static By ModalValue(string label) =>
         By.XPath($"//div[@class='modal-content']//td[text()='{label}']/following-sibling::td");
 
-    public PracticeFormPage FillTextField(By field, string value)
+    private PracticeFormPage FillTextField(By field, string value)
     {
         IWebElement input = ScrollTo(field);
         input.Clear();

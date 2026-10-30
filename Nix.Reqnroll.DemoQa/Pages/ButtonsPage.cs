@@ -12,7 +12,6 @@ internal class ButtonsPage(IWebDriver driver) : BasePage(driver)
 
     public ButtonsPage ClickButton(string name)
     {
-
         IWebElement button = ScrollTo(Button(name));
         EnsureNotCovered(button);
         var actions = new Actions(Driver);

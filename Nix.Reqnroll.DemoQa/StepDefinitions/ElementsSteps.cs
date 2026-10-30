@@ -13,7 +13,6 @@ public class ElementsSteps(IWebDriver driver)
     private readonly ButtonsPage _buttonsPage = new(driver);
     private readonly Dictionary<string, string> _submittedData = [];
 
-
     [When("the user submits the Text Box form with the following data")]
     public void WhenTheUserSubmitsTheTextBoxFormWithTheFollowingData(DataTable table)
     {

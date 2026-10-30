@@ -8,7 +8,7 @@ internal class HomePage(IWebDriver driver) : BasePage(driver)
         By.XPath($"//div[contains(@class, 'card')]//h5[text()='{category}']");
 
     private static By SectionMenuItem(string section) =>
-    By.XPath($"//li[contains(@class, 'btn')]//span[@class='text' and text()='{section}']");
+        By.XPath($"//li[contains(@class, 'btn')]//span[@class='text' and text()='{section}']");
 
     public HomePage OpenCategory(string category)
     {
@@ -16,8 +16,9 @@ internal class HomePage(IWebDriver driver) : BasePage(driver)
         return this;
     }
 
-    public void OpenSection(string section)
+    public HomePage OpenSection(string section)
     {
-        Click(SectionMenuItem(section));
+        Click(SectionMenuItem(section)); 
+        return this;
     }
 }
