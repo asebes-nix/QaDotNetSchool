@@ -49,13 +49,23 @@ catch (Exception ex)
 
 // Task 3.1
 var countriesApi = new CountriesApi();
-var languages = await countriesApi.GetAllLanguages();
+var countries = await countriesApi.GetCountries();
+var languages = countries
+    .Where(c => c.Languages != null)
+    .SelectMany(c => c.Languages!.Keys)
+    .Distinct()
+    .ToList();
 Console.WriteLine($"Unique languages: {languages.Count}");
 foreach (var lang in languages)
     Console.WriteLine(lang);
 
 // Task 3.2
-var populationByLanguage = await countriesApi.GetPopulationByLanguage();
+var populationByLanguage = new Dictionary<string, long>();
+foreach (var lang in languages)
+{
+    var langCountries = await countriesApi.GetCountriesByLanguage(lang);
+    populationByLanguage[lang] = langCountries.Sum(c => c.Population);
+}
 foreach (var kv in populationByLanguage)
     Console.WriteLine($"{kv.Key}: {kv.Value}");
 
