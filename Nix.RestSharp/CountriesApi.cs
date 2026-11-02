@@ -1,5 +1,6 @@
 ﻿using Nix.RestSharp.Models;
 using RestSharp;
+using System.Text.Json;
 
 namespace Nix.RestSharp;
 
@@ -17,13 +18,17 @@ public class CountriesApi
     {
         var request = new RestRequest("countries");
         var response = await _client.ExecuteAsync(request);
-        return _client.Deserialize<List<Country>>(response)?.Data ?? [];
+        return response.Content != null
+            ? JsonSerializer.Deserialize<List<Country>>(response.Content) ?? []
+            : [];
     }
 
     public async Task<List<Country>> GetCountriesByLanguage(string lang)
     {
         var request = new RestRequest($"lang/{lang}");
         var response = await _client.ExecuteAsync(request);
-        return _client.Deserialize<List<Country>>(response)?.Data ?? [];
+        return response.Content != null
+            ? JsonSerializer.Deserialize<List<Country>>(response.Content) ?? []
+            : [];
     }
 }

@@ -5,7 +5,7 @@ namespace Nix.RestSharp.Models;
 public class Country
 {
     [JsonPropertyName("languages")]
-    public Dictionary<string, string>? Languages { get; set; }
+    public List<Language>? Languages { get; set; }
 
     [JsonPropertyName("population")]
     public long Population { get; set; }

@@ -52,7 +52,9 @@ var countriesApi = new CountriesApi();
 var countries = await countriesApi.GetCountries();
 var languages = countries
     .Where(c => c.Languages != null)
-    .SelectMany(c => c.Languages!.Keys)
+    .SelectMany(c => c.Languages!)
+    .Select(l => l.Iso639_2)
+    .OfType<string>()
     .Distinct()
     .ToList();
 Console.WriteLine($"Unique languages: {languages.Count}");

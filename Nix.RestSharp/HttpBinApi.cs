@@ -1,5 +1,6 @@
 ﻿using Nix.RestSharp.Models;
 using RestSharp;
+using System.Text.Json;
 
 namespace Nix.RestSharp;
 
@@ -17,7 +18,9 @@ public class HttpBinApi
     {
         var request = new RestRequest("spec.json");
         var response = await _client.ExecuteAsync(request);
-        return _client.Deserialize<SpecResponse>(response)?.Data;
+        return response.Content != null
+            ? JsonSerializer.Deserialize<SpecResponse>(response.Content)
+            : null;
     }
 
     public async Task<(HttpBinPostResponse? data, RestResponse response)> PostForm(
@@ -36,6 +39,9 @@ public class HttpBinApi
             request.AddParameter("topping", topping);
 
         var response = await _client.ExecuteAsync(request);
-        return (_client.Deserialize<HttpBinPostResponse>(response)?.Data, response);
+        var parsed = response.Content != null
+            ? JsonSerializer.Deserialize<HttpBinPostResponse>(response.Content)
+            : null;
+        return (parsed, response);
     }
 }
