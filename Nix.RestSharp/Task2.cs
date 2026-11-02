@@ -5,7 +5,7 @@ namespace Nix.RestSharp;
 
 public static class Task2
 {
-    public static async Task<(Dictionary<string, string> form, Dictionary<string, string> headers)> SendPostRequest(
+    public static async Task<(FormData? form, Dictionary<string, string> headers)> SendPostRequest(
         PostFormRequest body,
         Dictionary<string, string> requestHeaders)
     {
@@ -24,16 +24,12 @@ public static class Task2
             request.AddParameter("topping", topping);
 
         var response = await client.ExecuteAsync(request);
-        var formDict = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
-        var headerDict = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
-
         var parsed = client.Deserialize<HttpBinPostResponse>(response);
-        if (parsed?.Data?.Form is not null)
-            formDict = parsed.Data.Form;
 
-        foreach (var h in response.Headers ?? [])
+        var headerDict = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+        foreach (var h in response.ContentHeaders ?? [])
             headerDict[h.Name ?? string.Empty] = h.Value?.ToString() ?? string.Empty;
 
-        return (formDict, headerDict);
+        return (parsed?.Data?.Form, headerDict);
     }
 }
