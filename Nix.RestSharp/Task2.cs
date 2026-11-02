@@ -14,7 +14,6 @@ public static class Task2
         var headerDict = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
         foreach (var h in response.ContentHeaders ?? [])
             headerDict[h.Name] = h.Value?.ToString() ?? string.Empty;
-
         return (parsed?.Form, headerDict);
     }
 }
