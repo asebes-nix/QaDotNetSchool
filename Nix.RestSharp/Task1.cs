@@ -4,21 +4,20 @@ namespace Nix.RestSharp;
 
 public static class Task1
 {
-    public static async Task<SpecResponse?> GetAllPaths()
+    public static async Task<SpecResponse?> GetAllPaths(HttpBinApi api)
     {
-        var api = new HttpBinApi();
         return await api.GetSpec();
     }
 
-    public static List<string> CheckPaths(SpecResponse spec)
+    public static Dictionary<string, string> CheckPaths(SpecResponse spec)
     {
-        var results = new List<string>();
+        var results = new Dictionary<string, string>();
         foreach (var path in spec.Paths ?? [])
             foreach (var method in path.Value)
             {
-                var responses = method.Value.Responses;
-                if (responses is null || !responses.ContainsKey("200"))
-                    results.Add($"{method.Key.ToUpper()} {path.Key}");
+                var codes = method.Value.Responses?.Keys.ToList() ?? [];
+                if (!codes.Contains("200"))
+                    results[$"{method.Key.ToUpper()} {path.Key}"] = string.Join(", ", codes);
             }
         return results;
     }

@@ -2,13 +2,14 @@
 using Nix.RestSharp.Models;
 using System.Text.Json;
 
+var httpBinApi = new HttpBinApi();
 // Task 1
 try
 {
-    var spec = await Task1.GetAllPaths();
+    var spec = await Task1.GetAllPaths(httpBinApi);
     var results = Task1.CheckPaths(spec!);
     foreach (var result in results)
-        Console.WriteLine(result);
+        Console.WriteLine($"{result.Key} - {result.Value}");
 }
 catch (Exception ex)
 {
@@ -34,7 +35,7 @@ try
         { "User-Agent", "Learning Automation" }
     };
 
-    var (form, responseHeaders) = await Task2.SendPostRequest(body, requestHeaders);
+    var (form, responseHeaders) = await Task2.SendPostRequest(httpBinApi, body, requestHeaders);
     Console.WriteLine("=== FORM ===");
     Console.WriteLine(JsonSerializer.Serialize(form, new JsonSerializerOptions(JsonSerializerDefaults.Web)));
     Console.WriteLine("=== HEADERS ===");
