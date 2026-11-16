@@ -1,6 +1,5 @@
 ﻿using Nix.RestSharp;
 using Nix.RestSharp.Models;
-using RestSharp;
 using System.Text.Json;
 
 // Task 1
@@ -19,7 +18,7 @@ catch (Exception ex)
 //Task 2
 try
 {
-    var body = new PostFormRequest
+    var body = new FormData
     {
         CustomerName = "András",
         CustomerTel = "123456",
@@ -37,7 +36,7 @@ try
 
     var (form, responseHeaders) = await Task2.SendPostRequest(body, requestHeaders);
     Console.WriteLine("=== FORM ===");
-    Console.WriteLine(JsonSerializer.Serialize(form));
+    Console.WriteLine(JsonSerializer.Serialize(form, new JsonSerializerOptions(JsonSerializerDefaults.Web)));
     Console.WriteLine("=== HEADERS ===");
     foreach (var kv in responseHeaders)
         Console.WriteLine($"{kv.Key}: {kv.Value}");
