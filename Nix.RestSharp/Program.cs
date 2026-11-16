@@ -57,6 +57,7 @@ var languages = countries
     .OfType<string>()
     .Distinct()
     .ToList();
+Console.WriteLine("=== UNIQUE LANGUAGES ===");
 Console.WriteLine($"Unique languages: {languages.Count}");
 foreach (var lang in languages)
     Console.WriteLine(lang);
@@ -68,6 +69,7 @@ foreach (var lang in languages)
     var langCountries = await countriesApi.GetCountriesByLanguage(lang);
     populationByLanguage[lang] = langCountries.Sum(c => c.Population);
 }
+Console.WriteLine("=== POPULATION BY LANGUAGE ===");
 foreach (var kv in populationByLanguage)
     Console.WriteLine($"{kv.Key}: {kv.Value}");
 

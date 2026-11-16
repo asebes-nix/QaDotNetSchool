@@ -10,20 +10,20 @@ public class HttpBinPostResponse
 
 public class FormData
 {
-    [JsonPropertyName("customerName")]
+    [JsonPropertyName("custname")]
     public string? CustomerName { get; set; }
 
-    [JsonPropertyName("customerTel")]
+    [JsonPropertyName("custtel")]
     public string? CustomerTel { get; set; }
 
-    [JsonPropertyName("customerEmail")]
+    [JsonPropertyName("custemail")]
     public string? CustomerEmail { get; set; }
 
     [JsonPropertyName("size")]
     public string? Size { get; set; }
 
-    [JsonPropertyName("toppings")]
-    public string? Toppings { get; set; }
+    [JsonPropertyName("topping")]
+    public List<string>? Toppings { get; set; }
 
     [JsonPropertyName("delivery")]
     public string? Delivery { get; set; }

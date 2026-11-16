@@ -10,7 +10,7 @@ public class HttpBinApi
 
     public HttpBinApi()
     {
-        _client = new RestClient("https://nghttp2.org/httpbin/");
+        _client = new RestClient("https://httpbin.org/");
         _client.AddDefaultHeader("User-Agent", "Learning Automation");
     }
 
