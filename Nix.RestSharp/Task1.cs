@@ -17,7 +17,7 @@ public static class Task1
             {
                 var codes = method.Value.Responses?.Keys.ToList() ?? [];
                 if (!codes.Contains("200"))
-                    results[$"{method.Key.ToUpper()} {path.Key}"] = string.Join(", ", codes);
+                    results[$"{method.Key.ToUpper()} \"{HttpBinApi.BaseUrl}{path.Key}\""] = string.Join(", ", codes);
             }
         return results;
     }

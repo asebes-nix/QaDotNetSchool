@@ -5,11 +5,13 @@ namespace Nix.RestSharp;
 
 public class HttpBinApi
 {
+    public const string BaseUrl = "https://httpbin.org";
+
     private readonly RestClient _client;
 
     public HttpBinApi()
     {
-        _client = new RestClient("https://httpbin.org/");
+        _client = new RestClient(BaseUrl);
         _client.AddDefaultHeader("User-Agent", "Learning Automation");
     }
 

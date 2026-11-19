@@ -9,7 +9,7 @@ try
     var spec = await Task1.GetAllPaths(httpBinApi);
     var results = Task1.CheckPaths(spec!);
     foreach (var result in results)
-        Console.WriteLine($"{result.Key} - {result.Value}");
+        Console.WriteLine($"{result.Key}, {result.Value}");
 }
 catch (Exception ex)
 {
@@ -35,7 +35,7 @@ try
         { "User-Agent", "Learning Automation" }
     };
 
-    var (form, responseHeaders) = await Task2.SendPostRequest(httpBinApi, body, requestHeaders);
+    var (form, responseHeaders) = await httpBinApi.PostForm(body, requestHeaders);
     Console.WriteLine("=== FORM ===");
     Console.WriteLine(JsonSerializer.Serialize(form, new JsonSerializerOptions(JsonSerializerDefaults.Web)));
     Console.WriteLine("=== HEADERS ===");
