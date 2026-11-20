@@ -1,23 +1,25 @@
-﻿using Nix.NUnit.Practice1;
-using System;
-
-namespace Nix.NUnit.Practice1;
+﻿namespace Nix.NUnit.Practice1;
 
 public class Task3Tests
 {
-    [Test]
-    public async Task GetPopulationByLanguage_ResultIsNotEmpty()
-    {
-        var result = await Task3.GetPopulationByLanguage();
+    private Dictionary<string, long> _result = null!;
 
-        Assert.That(result, Is.Not.Empty);
+    [SetUp]
+    public async Task Setup()
+    {
+        var task3 = new Task3();
+        _result = await task3.GetPopulationByLanguage();
     }
 
     [Test]
-    public async Task GetPopulationByLanguage_AllPopulationsArePositive()
+    public void GetPopulationByLanguage_ResultIsNotEmpty()
     {
-        var result = await Task3.GetPopulationByLanguage();
+        Assert.That(_result, Is.Not.Empty);
+    }
 
-        Assert.That(result.Values, Is.All.GreaterThan(0));
+    [Test]
+    public void GetPopulationByLanguage_AllPopulationsArePositive()
+    {
+        Assert.That(_result.Values, Is.All.GreaterThan(0));
     }
 }

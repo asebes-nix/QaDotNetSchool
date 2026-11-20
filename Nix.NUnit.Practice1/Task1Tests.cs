@@ -1,25 +1,29 @@
-﻿using Nix.NUnit.Practice1;
-using System;
+﻿using Nix.NUnit.Practice1.Models;
 
 namespace Nix.NUnit.Practice1;
 
 public class Task1Tests
 {
-    [Test]
-    public async Task CheckPaths_ResultIsNotEmpty()
-    {
-        var paths = await Task1.GetAllPaths();
-        var result = await Task1.CheckPaths(paths!);
+    private Dictionary<string, int[]> _result = null!;
 
-        Assert.That(result, Is.Not.Empty);
+    [SetUp]
+    public async Task Setup()
+    {
+        var task1 = new Task1();
+        var spec = await task1.GetAllPaths();
+        _result = await task1.CheckPaths(spec!);
     }
 
     [Test]
-    public async Task CheckPaths_ContainsOnlyNon200StatusCodes()
+    public void CheckPaths_ResultIsNotEmpty()
     {
-        var paths = await Task1.GetAllPaths();
-        var result = await Task1.CheckPaths(paths!);
+        Assert.That(_result, Is.Not.Empty);
+    }
 
-        Assert.That(result.Values, Is.All.Not.EqualTo(200));
+    [Test]
+    public void CheckPaths_AllValuesContainNon200StatusCodes()
+    {
+        Assert.That(_result.Values, Is.All.Not.Empty);
+        Assert.That(_result.Values.SelectMany(v => v), Is.All.Not.EqualTo(200));
     }
 }

@@ -1,20 +1,26 @@
 ﻿using Nix.NUnit.Practice1.Models;
 using RestSharp;
-using System.Text.Json;
 
 namespace Nix.NUnit.Practice1;
 
-public static class Task2
+public class Task2
 {
-    public static async Task<(Dictionary<string, string> form, Dictionary<string, string> headers)> SendPostRequest(
-        PostFormRequest body,
-        Dictionary<string, string> requestHeaders)
+    public const string BaseUrl = "https://httpbin.org";
+
+    private readonly RestClient _client;
+
+    public Task2()
     {
-        var client = new RestClient("https://nghttp2.org/httpbin/");
+        _client = new RestClient(BaseUrl);
+        _client.AddDefaultHeader("User-Agent", "Learning Automation");
+    }
+
+    public async Task<(FormData? form, Dictionary<string, string> headers)> SendPostRequest(
+    PostFormRequest body,
+    Dictionary<string, string> requestHeaders)
+    {
         var request = new RestRequest("post", Method.Post);
-
         request.AddHeaders(requestHeaders);
-
         request.AddParameter("custname", body.CustomerName);
         request.AddParameter("custtel", body.CustomerTel);
         request.AddParameter("custemail", body.CustomerEmail);
@@ -24,21 +30,17 @@ public static class Task2
         foreach (var topping in body.Toppings ?? [])
             request.AddParameter("topping", topping);
 
-        var response = await client.ExecuteAsync(request);
-        var formDict = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
-        var headerDict = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+        var response = await _client.ExecutePostAsync<HttpBinPostResponse>(request);
 
-        var parsed = client.Deserialize<HttpBinPostResponse>(response);
-        if (parsed?.Data?.Form is not null)
-            formDict = parsed.Data.Form;
+        var headers = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+        foreach (var h in response.Headers ?? [])
+            headers[h.Name] = h.Value?.ToString() ?? string.Empty;
 
-        var parsedForHeaders = JsonSerializer.Deserialize<JsonElement>(response.Content ?? "{}");
-        if (parsedForHeaders.TryGetProperty("headers", out var headersElement))
-        {
-            foreach (var h in headersElement.EnumerateObject())
-                headerDict[h.Name] = h.Value.GetString() ?? string.Empty;
-        }
+        // httpbin echoes request headers in JSON body under "headers" key
+        if (response.Data?.Headers is not null)
+            foreach (var h in response.Data.Headers)
+                headers[h.Key] = h.Value;
 
-        return (formDict, headerDict);
+        return (response.Data?.Form, headers);
     }
 }
