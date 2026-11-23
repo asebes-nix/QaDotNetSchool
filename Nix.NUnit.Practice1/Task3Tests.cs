@@ -2,24 +2,25 @@
 
 public class Task3Tests
 {
-    private Dictionary<string, long> _result = null!;
-
-    [SetUp]
-    public async Task Setup()
+    [Test]
+    public async Task GetAllLanguages_ReturnsUniqueLanguages()
     {
         var task3 = new Task3();
-        _result = await task3.GetPopulationByLanguage();
+        var languages = await task3.GetAllLanguages();
+
+        Assert.That(languages, Is.Unique);
     }
 
     [Test]
-    public void GetPopulationByLanguage_ResultIsNotEmpty()
+    public async Task GetPopulationByLanguage_ReturnsPositiveValues()
     {
-        Assert.That(_result, Is.Not.Empty);
-    }
+        var task3 = new Task3();
+        var result = await task3.GetPopulationByLanguage();
 
-    [Test]
-    public void GetPopulationByLanguage_AllPopulationsArePositive()
-    {
-        Assert.That(_result.Values, Is.All.GreaterThan(0));
+        Assert.Multiple(() =>
+        {
+            Assert.That(result, Is.Not.Empty);
+            Assert.That(result.Values, Is.All.GreaterThan(0));
+        });
     }
 }

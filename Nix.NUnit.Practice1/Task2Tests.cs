@@ -4,13 +4,10 @@ namespace Nix.NUnit.Practice1;
 
 public class Task2Tests
 {
-    private PostFormRequest _form = null!;
-    private (FormData? form, Dictionary<string, string> headers) _result;
-
-    [SetUp]
-    public async Task Setup()
+    [Test]
+    public async Task SendPostRequest_FormMatchesAndUserAgentIsSet()
     {
-        _form = new PostFormRequest
+        var form = new PostFormRequest
         {
             CustomerName = "Andras",
             CustomerTel = "06301234567",
@@ -21,23 +18,12 @@ public class Task2Tests
             Comments = "extra crispy"
         };
         var task2 = new Task2();
-        _result = await task2.SendPostRequest(_form, []);
-    }
+        var result = await task2.SendPostRequest(form, []);
 
-    [Test]
-    public void SendPostRequest_FormMatchesRequest()
-    {
-        Assert.That(_result.form?.CustomerName, Is.EqualTo(_form.CustomerName));
-        Assert.That(_result.form?.CustomerTel, Is.EqualTo(_form.CustomerTel));
-        Assert.That(_result.form?.CustomerEmail, Is.EqualTo(_form.CustomerEmail));
-        Assert.That(_result.form?.Size, Is.EqualTo(_form.Size));
-        Assert.That(_result.form?.Delivery, Is.EqualTo(_form.Delivery));
-        Assert.That(_result.form?.Comments, Is.EqualTo(_form.Comments));
-    }
-
-    [Test]
-    public void SendPostRequest_UserAgentContainsLearningAutomation()
-    {
-        Assert.That(_result.headers["User-Agent"], Does.Contain("Learning Automation"));
+        Assert.Multiple(() =>
+        {
+            Assert.That(result.form, Is.EqualTo(form));
+            Assert.That(result.headers["User-Agent"], Does.Contain("Learning Automation"));
+        });
     }
 }

@@ -19,6 +19,17 @@ public class Task3
         return await _client.GetAsync<List<Country>>(request) ?? [];
     }
 
+    public async Task<List<string>> GetAllLanguages()
+    {
+        var countries = await GetAllCountries();
+        return countries
+            .SelectMany(c => c.Languages ?? [])
+            .Select(l => l.Iso639_1 ?? string.Empty)
+            .Where(c => !string.IsNullOrEmpty(c))
+            .Distinct()
+            .ToList();
+    }
+
     public async Task<Dictionary<string, long>> GetPopulationByLanguage()
     {
         var countries = await GetAllCountries();

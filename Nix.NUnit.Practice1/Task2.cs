@@ -15,7 +15,7 @@ public class Task2
         _client.AddDefaultHeader("User-Agent", "Learning Automation");
     }
 
-    public async Task<(FormData? form, Dictionary<string, string> headers)> SendPostRequest(
+    public async Task<(PostFormRequest? form, Dictionary<string, string> headers)> SendPostRequest(
     PostFormRequest body,
     Dictionary<string, string> requestHeaders)
     {

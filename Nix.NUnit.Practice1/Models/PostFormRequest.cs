@@ -24,4 +24,19 @@ public class PostFormRequest
 
     [JsonPropertyName("comments")]
     public string? Comments { get; set; }
+
+
+    public override bool Equals(object? obj)
+    {
+        if (obj is not PostFormRequest other) return false;
+        return CustomerName == other.CustomerName
+            && CustomerTel == other.CustomerTel
+            && CustomerEmail == other.CustomerEmail
+            && Size == other.Size
+            && Delivery == other.Delivery
+            && Comments == other.Comments;
+    }
+
+    public override int GetHashCode() =>
+        HashCode.Combine(CustomerName, CustomerTel, CustomerEmail, Size, Delivery, Comments);
 }

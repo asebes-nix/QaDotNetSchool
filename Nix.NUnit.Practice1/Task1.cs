@@ -21,29 +21,16 @@ public class Task1
         return await _client.GetAsync<SpecResponse>(request);
     }
 
-    public async Task<Dictionary<string, int[]>> CheckPaths(SpecResponse spec)
+    public static Dictionary<string, string> CheckPaths(SpecResponse spec)
     {
-        var results = new Dictionary<string, int[]>();
-
+        var results = new Dictionary<string, string>();
         foreach (var path in spec.Paths ?? [])
-        {
-            if (path.Key.Contains('{'))
-                continue;
-
-            var methodResults = new List<int>();
             foreach (var method in path.Value)
             {
-                var request = new RestRequest(path.Key, Enum.Parse<Method>(method.Key, true));
-                var response = await _client.ExecuteAsync(request);
-                var statusCode = (int)response.StatusCode;
-                if (statusCode != 200)
-                    methodResults.Add(statusCode);
+                var codes = method.Value.Responses?.Keys.ToList() ?? [];
+                if (!codes.Contains("200"))
+                    results[$"{method.Key.ToUpper()} \"{BaseUrl}{path.Key}\""] = string.Join(", ", codes);
             }
-
-            if (methodResults.Count > 0)
-                results[path.Key] = [.. methodResults];
-        }
-
         return results;
     }
 }
