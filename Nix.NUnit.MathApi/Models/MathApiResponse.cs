@@ -1,4 +1,4 @@
-﻿namespace Nix.NUnit.MathApi;
+﻿namespace Nix.NUnit.MathApi.Models;
 
 public class MathApiResponse
 {
