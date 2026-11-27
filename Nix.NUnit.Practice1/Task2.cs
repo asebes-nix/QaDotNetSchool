@@ -15,9 +15,9 @@ public class Task2
         _client.AddDefaultHeader("User-Agent", "Learning Automation");
     }
 
-    public async Task<(PostFormRequest? form, Dictionary<string, string> headers)> SendPostRequest(
-    PostFormRequest body,
-    Dictionary<string, string> requestHeaders)
+    public async Task<(FormData? form, Dictionary<string, string> headers)> SendPostRequest(
+        FormData body,
+        Dictionary<string, string> requestHeaders)
     {
         var request = new RestRequest("post", Method.Post);
         request.AddHeaders(requestHeaders);
@@ -31,15 +31,14 @@ public class Task2
             request.AddParameter("topping", topping);
 
         var response = await _client.ExecutePostAsync<HttpBinPostResponse>(request);
+        if (!response.IsSuccessful)
+            throw new HttpRequestException($"POST /post failed with {response.StatusCode}", response.ErrorException);
 
         var headers = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
         foreach (var h in response.Headers ?? [])
             headers[h.Name] = h.Value?.ToString() ?? string.Empty;
-
-        // httpbin echoes request headers in JSON body under "headers" key
-        if (response.Data?.Headers is not null)
-            foreach (var h in response.Data.Headers)
-                headers[h.Key] = h.Value;
+        foreach (var h in response.ContentHeaders ?? [])
+            headers[h.Name] = h.Value?.ToString() ?? string.Empty;
 
         return (response.Data?.Form, headers);
     }

@@ -17,10 +17,10 @@ public class Task3Tests
         var task3 = new Task3();
         var result = await task3.GetPopulationByLanguage();
 
-        Assert.Multiple(() =>
+        using (Assert.EnterMultipleScope())
         {
             Assert.That(result, Is.Not.Empty);
             Assert.That(result.Values, Is.All.GreaterThan(0));
-        });
+        }
     }
 }

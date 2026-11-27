@@ -4,8 +4,7 @@ namespace Nix.NUnit.Practice1.Models;
 
 public class HttpBinPostResponse
 {
-    public PostFormRequest? Form { get; set; }
-    public Dictionary<string, string>? Headers { get; set; }
+    public FormData? Form { get; set; }
 }
 
 public class FormData

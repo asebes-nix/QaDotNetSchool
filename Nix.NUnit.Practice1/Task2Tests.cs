@@ -5,9 +5,9 @@ namespace Nix.NUnit.Practice1;
 public class Task2Tests
 {
     [Test]
-    public async Task SendPostRequest_FormMatchesAndUserAgentIsSet()
+    public async Task SendPostRequest_ReturnsSentFormAndJsonContentType()
     {
-        var form = new PostFormRequest
+        var form = new FormData
         {
             CustomerName = "Andras",
             CustomerTel = "06301234567",
@@ -20,10 +20,10 @@ public class Task2Tests
         var task2 = new Task2();
         var result = await task2.SendPostRequest(form, []);
 
-        Assert.Multiple(() =>
+        using (Assert.EnterMultipleScope())
         {
-            Assert.That(result.form, Is.EqualTo(form));
-            Assert.That(result.headers["User-Agent"], Does.Contain("Learning Automation"));
-        });
+            Assert.That(result.form, Is.EqualTo(form).UsingPropertiesComparer());
+            Assert.That(result.headers["Content-Type"], Does.Contain("application/json"));
+        }
     }
 }

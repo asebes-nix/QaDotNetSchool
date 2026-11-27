@@ -2,5 +2,5 @@
 
 public class PathItem
 {
-    public Dictionary<string, ResponseInfo>? Responses { get; set; }
+    public Dictionary<string, object>? Responses { get; set; }
 }
